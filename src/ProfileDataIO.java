@@ -3,7 +3,6 @@ public class ProfileDataIO {
         return new ProfileData("John");
     }
     void saveProfile(ProfileData profile) {
-
     }
     ProfileDataIO () {}
 }

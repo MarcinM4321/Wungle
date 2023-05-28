@@ -1,6 +1,6 @@
 public class MainGameProfile {
     // klasa odpowiedzialna za profil obecnego gracza
-    // Wszystkie inny klasy mają korzystać z tej klasy aby otrzymywać informacje o profilu gracza
+    // Wszystkie inne klasy mają korzystać z tej klasy aby otrzymywać informacje o profilu gracza
 
     private ProfileData currentProfile;
     private ProfileDataIO database;
@@ -17,7 +17,7 @@ public class MainGameProfile {
     }
 
     void loadProfile() {
-        // TODO: Funkcjonalność
+        //TODO: załadowac aktualny profil
         currentProfile =  new ProfileData("John");
     }
     void saveProfile() {

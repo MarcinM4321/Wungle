@@ -40,7 +40,7 @@ public class MainScreen {
         mainGUIFrame.show();
         mainGUIFrame.setFocusable(true);
         mainGUIFrame.addFocusListener(new FocusListener() {
-            //Potrzebne aby wordlePanel miał zawsze foucs, aby mógł rejestrować klawiaturę.
+            //Potrzebne aby wordlePanel miał zawsze focus, aby mógł rejestrować klawiaturę.
             @Override
             public void focusGained(FocusEvent e) {
                 wordlePanel.requestFocus();
