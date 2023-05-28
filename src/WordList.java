@@ -28,6 +28,7 @@ public class WordList {
 
     public Boolean isWordAllowed(String guess) {
         //TODO: Zaimplementować funkcjonalność
+        //TODO: dokonczyc projekt
         return true;
     }
 }
