@@ -10,20 +10,21 @@ public class WordList {
     }
 
     public void loadWords() {
+        String word;
         final File dictionary;
-        dictionary = new File("src/slowa.txt");
+        dictionary = new File("slowa.txt");
         try {
             Scanner readDictionary = new Scanner(dictionary);
             for(int i = 0; i < 3186044; i++) {
-                listOfPossibleWords.add((readDictionary.nextLine()));
+                word = readDictionary.nextLine();
+                if(word.length() == 5)
+                    listOfPossibleWords.add(word);
             }
             readDictionary.close();
         } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
-        //TODO: wywalenie ze słownika słów, które nie mają 5 liter
         //TODO: poprawienie 3186044 na długość pliku
-        //TODO: ewentualnie przerobić, że pobieramy plik z internetu
     }
 
     public Boolean isWordAllowed(String guess) {
