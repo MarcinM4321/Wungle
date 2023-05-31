@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.io.File;
+import java.util.Random;
 import java.util.Scanner;
 
 public class WordList {
@@ -28,8 +29,12 @@ public class WordList {
     }
 
     public Boolean isWordAllowed(String guess) {
-        //TODO: Zaimplementować funkcjonalność
+        return listOfPossibleWords.contains(guess);
         //TODO: dokonczyc projekt
-        return true;
+    }
+    public String chooseWord(){
+        Random randomise = new Random();
+        int randomNumber = randomise.nextInt(listOfPossibleWords.size());
+        return listOfPossibleWords.get(randomNumber);
     }
 }
