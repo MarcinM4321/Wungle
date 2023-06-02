@@ -36,7 +36,7 @@ public class MainScreen {
         mainGUIFrame.setFocusable(true);
         mainGUIFrame.addKeyListener(game);
         mainGUIFrame.addFocusListener(new FocusListener() {
-            //Potrzebne aby wordlePanel miał zawsze foucs, aby mógł rejestrować klawiaturę.
+            //Potrzebne aby wordlePanel miał zawsze focus, aby mógł rejestrować klawiaturę.
             @Override
             public void focusGained(FocusEvent e) {
                 System.out.println("in focus");
