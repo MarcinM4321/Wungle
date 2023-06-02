@@ -26,7 +26,7 @@ public class SelectScreen {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Boolean wasSuccessful = true;
+                Boolean wasSuccessful;
                 if(!newUsername.getText().equals("")) {
                     System.out.println("text: \""+ newUsername.getText()+"\"");
                     wasSuccessful =  profile.createProfile(newUsername.getText());

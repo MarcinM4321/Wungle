@@ -53,17 +53,15 @@ public class MainGameProfile {
     }
 
     public Boolean createProfile(String username) {
-        int newID;
-        Random rand = new Random();
         if (allUsernames.contains(username)) {
             errorMessenger.showError("Użytkownik o takiej nazwie już istnieje");
             return false;
         }
 
-        newID = rand.nextInt(MAX_NUMBER_OF_IDS); //generuje nowe ID
-        while(allUsersID.contains(newID)) {
+        Random rand = new Random();
+        int newID = rand.nextInt(MAX_NUMBER_OF_IDS); //generuje nowe ID
+        while(allUsersID.contains(newID))
             newID = rand.nextInt(MAX_NUMBER_OF_IDS);
-        }
 
         currentProfile = new ProfileData(username, newID);
         allUsersID.add(newID);
@@ -95,19 +93,22 @@ public class MainGameProfile {
     }
     private void saveListOfUsers() {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH_USER_LIST));
+            FileWriter fw = new FileWriter(FILE_PATH_USER_LIST);
+            BufferedWriter bw = new BufferedWriter(fw);
             for (int i=0; i< allUsersID.size(); i++) {
                 bw.write(allUsersID.get(i) + " " + allUsernames.get(i) + "\n");
             }
+
             bw.close();
         } catch (IOException ex) {
-            errorMessenger.showError("błąd przy zapisywaniu pliku "+FILE_PATH_USER_LIST +" z listą probili");
+            errorMessenger.showError("błąd przy zapisywaniu pliku "+FILE_PATH_USER_LIST +" z listą profili");
         }
     }
 
 
     private void readListOfUsers() {
         File listUsers = new File(FILE_PATH_USER_LIST);
+
         if(!listUsers.exists()) {
             try{
                 listUsers.createNewFile();
@@ -116,6 +117,7 @@ public class MainGameProfile {
                 errorMessenger.showError("Nie można utworzyć pliku" + FILE_PATH_USER_LIST);
             }
         }
+
         try(FileReader listFile = new FileReader(FILE_PATH_USER_LIST);
                 Scanner input = new Scanner(listFile)) {
             while (input.hasNextLine()) {
@@ -124,7 +126,7 @@ public class MainGameProfile {
             }
         }
         catch (FileNotFoundException ex) {
-            System.out.println();
+            errorMessenger.showError("nie można zanleżć pliku " + FILE_PATH_USER_LIST);
         }
         catch (IOException ex) {
             errorMessenger.showError("błąd przy czytaniu pliku " + FILE_PATH_USER_LIST);

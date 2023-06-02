@@ -10,17 +10,17 @@ public class ProfileDataIO {
         try {
             FileReader fr = new FileReader(userId + USER_DATA_FILE_SUFFIX);
             Scanner input = new Scanner(fr);
+
             String username = input.nextLine();
+
             result =  new ProfileData(username, userId);
 
-            int cur_num_of_guesses = 0;
-            String guess;
             while(input.hasNextLine()) { // czyta dane dla każdej gry
 
-                cur_num_of_guesses = input.nextInt();
-                guess = input.nextLine().substring(1); // nie uwzględniam spacji pomiędzy.
-                String[] allGuesses = new String[cur_num_of_guesses];
+                int cur_num_of_guesses = input.nextInt();
+                String guess = input.nextLine().substring(1); // nie uwzględniam spacji pomiędzy.
 
+                String[] allGuesses = new String[cur_num_of_guesses];
                 for (int i = 0; i < cur_num_of_guesses; i++) {
                     allGuesses[i] = input.nextLine(); // usuwam rodzielający
                 }
@@ -29,7 +29,6 @@ public class ProfileDataIO {
             }
             input.close();
             fr.close();
-
         }
         catch (InputMismatchException ex) {
             errorMessenger.showError("plik "+ userId + USER_DATA_FILE_SUFFIX + " z profilem gracza jest niepoprawny");
@@ -44,8 +43,11 @@ public class ProfileDataIO {
 
     void saveProfile(ProfileData profile, int profileID) throws IOException {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(profileID + USER_DATA_FILE_SUFFIX));
+            FileWriter fw = new FileWriter(profileID + USER_DATA_FILE_SUFFIX);
+            BufferedWriter bw = new BufferedWriter(fw);
+
             bw.write(profile.getUsername()+ "\n");
+
             for (int cur_game_idx = 0; cur_game_idx < profile.getNumberOfGames(); cur_game_idx++) {
                 SingleGameHistory game = profile.getSingleHistory(cur_game_idx);
 
@@ -57,6 +59,7 @@ public class ProfileDataIO {
                 }
             }
             bw.close();
+            fw.close();
 
         } catch ( IOException ex) {
             errorMessenger.showError("bład podczas zapisywania danych z profilu");
