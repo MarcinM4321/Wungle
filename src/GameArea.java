@@ -1,11 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GameArea {
+public class GameArea implements KeyListener {
     JPanel mainPanel;
     MainGameProfile profile;
     WordList allowedWords;
@@ -33,31 +31,22 @@ public class GameArea {
                 mainPanel.add(letterGrid[x][y]);
             }
         }
+    }
 
-        mainPanel.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                // w celach testowych zastępuje litery w kolejnych kratkach
-                letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText(""+e.getKeyChar());
-                position = position == WORD_LENGTH * NUMBER_OF_GUESSES - 1 ? 0 : position + 1;
-                System.out.println("pressed: "+ e.getKeyChar());
-            }
-            @Override
-            public void keyPressed(KeyEvent e) { }
-            @Override
-            public void keyReleased(KeyEvent e) { }
-        });
-        mainPanel.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                //System.out.println("Focus on Wordle");
-            }
+    @Override
+    public void keyTyped(KeyEvent e) {
+        letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText(""+e.getKeyChar());
+        position = position == WORD_LENGTH * NUMBER_OF_GUESSES - 1 ? 0 : position + 1;
+        System.out.println("pressed: "+ e.getKeyChar());
+    }
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                //System.out.println("lost focus");
-                mainPanel.requestFocus(); //gwarantuje, że zawsze ma focus
-            }
-        });
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
