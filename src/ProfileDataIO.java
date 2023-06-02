@@ -18,7 +18,7 @@ public class ProfileDataIO {
             while(input.hasNextLine()) { // czyta dane dla każdej gry
 
                 cur_num_of_guesses = input.nextInt();
-                guess = input.nextLine();
+                guess = input.nextLine().substring(1); // nie uwzględniam spacji pomiędzy.
                 String[] allGuesses = new String[cur_num_of_guesses];
 
                 for (int i = 0; i < cur_num_of_guesses; i++) {
