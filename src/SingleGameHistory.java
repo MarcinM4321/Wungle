@@ -3,6 +3,8 @@ public class SingleGameHistory {
     private int numberOfGuesses;
     private String[] allGuesses;
 
+    private static final int MAX_NUMBER_OF_GUESSES = 6;
+
     SingleGameHistory(String target, int numberOfGuesses, String[] allGuesses) {
         this.target = target;
         this.numberOfGuesses = numberOfGuesses;
@@ -12,6 +14,13 @@ public class SingleGameHistory {
         }
     }
 
+    Boolean isWinning() {
+        return allGuesses[numberOfGuesses - 1].equals(target);
+    }
+
+    Boolean isFinnished() {
+        return (numberOfGuesses == 6) || isWinning();
+    }
     String getTarget() {
         return target;
     }

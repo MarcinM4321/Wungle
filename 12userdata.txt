@@ -1,8 +1,38 @@
 marcin
-3  Słowo
+2 gracz
+polik
+kling
+6 traci
+aaaaa
+bbbbb
+ccccc
+ddddd
+fffff
+traci
+6 abbab
+xxxxx
+yyyyy
+zzzzz
+ttttt
+vvvvv
+nnnnn
+3 słowo
 gracz
 braki
-czapa
-2  strop
+słowo
+2 strop
 crumb
-polcz
+strop
+2 trawa
+miecz
+trawa
+1 wiara
+wiara
+1 miecz
+miecz
+1 spawy
+spawy
+1 stop
+stop
+1 miecz
+miecz
