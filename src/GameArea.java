@@ -18,6 +18,7 @@ public class GameArea implements KeyListener {
         this.profile = profile;
         allowedWords = new WordList();
         allowedWords.loadWords();
+        String choosenWord = allowedWords.chooseWord();
         GridLayout wordleLayout = new GridLayout(NUMBER_OF_GUESSES, WORD_LENGTH);
         mainPanel.setFocusable(true);
 
@@ -35,9 +36,19 @@ public class GameArea implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText(""+e.getKeyChar());
-        position = position == WORD_LENGTH * NUMBER_OF_GUESSES - 1 ? 0 : position + 1;
+        if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+            if(position != 0){
+                letterGrid[(position - 1)%NUMBER_OF_GUESSES][(position - 1)/NUMBER_OF_GUESSES].setText("");
+                position = position == WORD_LENGTH * NUMBER_OF_GUESSES - 1 ? 0 : position - 1;
+            } else
+                letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText("");
+        } else {
+            letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText(""+e.getKeyChar());
+            position = position == WORD_LENGTH * NUMBER_OF_GUESSES - 1 ? 0 : position + 1;
+        }
+
         System.out.println("pressed: "+ e.getKeyChar());
+        System.out.println(position);
     }
 
     @Override
