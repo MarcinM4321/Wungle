@@ -36,7 +36,7 @@ public class GameArea implements KeyListener {
             }
         }
     }
-//TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyEnters = 6
+//TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyGuesses = 6
     //TODO zmieniające się kolory kratek
     //TODO uniemożliwienie wpisywania innych znaków w grid niż liter
     @Override
@@ -44,12 +44,12 @@ public class GameArea implements KeyListener {
         if(lettersWritten == 5){
             wordArray = new char[5];
             if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                int k = 0;
-                for(int i = position - WORD_LENGTH; i < position; i++){
-                    char letter = letterGrid[i % WORD_LENGTH][i / WORD_LENGTH].getText().charAt(0);
-                    wordArray[k] = letter;
-                    k++;
+
+                for(int i = 0; i < WORD_LENGTH; i++){
+                    char letter = letterGrid[i][howManyGuesses].getText().charAt(0);
+                    wordArray[i] = letter;
                 }
+
                 String guessWord = String.valueOf(wordArray);
                 System.out.println(guessWord);
 
@@ -61,8 +61,8 @@ public class GameArea implements KeyListener {
                         lettersWritten = 0;
                     }
                 } else {
-                        for(int i = position - WORD_LENGTH; i < position; i++){
-                            letterGrid[i%WORD_LENGTH][i/WORD_LENGTH].setText("");
+                        for(int i = 0; i < WORD_LENGTH; i++){
+                            letterGrid[i][howManyGuesses].setText("");
                         }
                         lettersWritten = 0;
                         position = position - 5;
