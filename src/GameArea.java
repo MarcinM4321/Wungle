@@ -9,8 +9,11 @@ public class GameArea implements KeyListener {
     WordList allowedWords;
     static final int WORD_LENGTH = 5;
     static final int NUMBER_OF_GUESSES = 6;
-
+    private final String choosenWord;
+    private char[] wordArray;
+    private int lettersWritten = 0;
     private int position = 0;
+    private int howManyGuesses = 0; //będę tym sprawdzał ile prób wykonał gracz
     JLabel[][] letterGrid;
     GameArea(JPanel mainPanel, MainGameProfile profile) {
 
@@ -18,7 +21,7 @@ public class GameArea implements KeyListener {
         this.profile = profile;
         allowedWords = new WordList();
         allowedWords.loadWords();
-        String choosenWord = allowedWords.chooseWord();
+        choosenWord = allowedWords.chooseWord();
         GridLayout wordleLayout = new GridLayout(NUMBER_OF_GUESSES, WORD_LENGTH);
         mainPanel.setFocusable(true);
 
@@ -33,22 +36,59 @@ public class GameArea implements KeyListener {
             }
         }
     }
-
+//TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyEnters = 6
+    //TODO zmieniające się kolory kratek
+    //TODO uniemożliwienie wpisywania innych znaków w grid niż liter
     @Override
     public void keyTyped(KeyEvent e) {
-        if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
-            if(position != 0){
+        if(lettersWritten == 5){
+            wordArray = new char[5];
+            if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                int k = 0;
+                for(int i = position - WORD_LENGTH; i < position; i++){
+                    char letter = letterGrid[i % NUMBER_OF_GUESSES][i / NUMBER_OF_GUESSES].getText().charAt(0);
+                    wordArray[k] = letter;
+                    k++;
+                }
+                String guessWord = String.valueOf(wordArray);
+                System.out.println(guessWord);
+
+                if(allowedWords.isWordAllowed(guessWord)){
+                    if (guessWord.equals(choosenWord))
+                        System.out.println("Wygrałeś");
+                    else {
+                        howManyGuesses = howManyGuesses + 1;
+                        lettersWritten = 0;
+                    }
+                } else {
+                        for(int i = position - WORD_LENGTH; i < position; i++){
+                            letterGrid[i%NUMBER_OF_GUESSES][i/NUMBER_OF_GUESSES].setText("");
+                        }
+                        lettersWritten = 0;
+                        position = position - 5;
+                    }
+            }
+            else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                 letterGrid[(position - 1)%NUMBER_OF_GUESSES][(position - 1)/NUMBER_OF_GUESSES].setText("");
-                position = position == WORD_LENGTH * NUMBER_OF_GUESSES - 1 ? 0 : position - 1;
-            } else
-                letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText("");
+                position = position - 1;
+                lettersWritten = lettersWritten - 1;
+            }
+        } else if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+                if(lettersWritten != 0){
+                    letterGrid[(position - 1)%NUMBER_OF_GUESSES][(position - 1)/NUMBER_OF_GUESSES].setText("");
+                    position = position - 1;
+                    lettersWritten = lettersWritten - 1;
+                } else
+                    letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText("");
         } else {
             letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText(""+e.getKeyChar());
-            position = position == WORD_LENGTH * NUMBER_OF_GUESSES - 1 ? 0 : position + 1;
+            position = position + 1;
+            lettersWritten = lettersWritten + 1;
         }
 
         System.out.println("pressed: "+ e.getKeyChar());
         System.out.println(position);
+        System.out.println("lettersWritten = " + lettersWritten);
     }
 
     @Override
