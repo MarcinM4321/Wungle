@@ -10,7 +10,6 @@ public class GameArea implements KeyListener {
     static final int WORD_LENGTH = 5;
     static final int NUMBER_OF_GUESSES = 6;
     private final String choosenWord;
-    private char[] wordArray;
     private int lettersWritten = 0;
     private int position = 0;
     private int howManyGuesses = 0; //będę tym sprawdzał ile prób wykonał gracz
@@ -42,7 +41,7 @@ public class GameArea implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         if(lettersWritten == 5){
-            wordArray = new char[5];
+            char[] wordArray = new char[5];
             if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                 for(int i = 0; i < WORD_LENGTH; i++){
                     char letter = letterGrid[i][howManyGuesses].getText().charAt(0);
