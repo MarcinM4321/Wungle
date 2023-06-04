@@ -27,12 +27,12 @@ public class GameArea implements KeyListener {
 
         mainPanel.setLayout(wordleLayout);
 
-        letterGrid = new JLabel[NUMBER_OF_GUESSES][WORD_LENGTH];
-        for (int y=0; y < WORD_LENGTH; y++) {
-            for (int x=0; x<NUMBER_OF_GUESSES; x++) {
-                letterGrid[x][y] = new JLabel("("+x+","+y+")");
-                letterGrid[x][y].setSize(10,10);
-                mainPanel.add(letterGrid[x][y]);
+        letterGrid = new JLabel[WORD_LENGTH][NUMBER_OF_GUESSES];
+        for (int x=0; x<NUMBER_OF_GUESSES; x++) {
+            for (int y=0; y < WORD_LENGTH; y++) {
+                letterGrid[y][x] = new JLabel("("+x+","+y+")");
+                letterGrid[y][x].setSize(10,10);
+                mainPanel.add(letterGrid[y][x]);
             }
         }
     }
@@ -46,7 +46,7 @@ public class GameArea implements KeyListener {
             if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                 int k = 0;
                 for(int i = position - WORD_LENGTH; i < position; i++){
-                    char letter = letterGrid[i % NUMBER_OF_GUESSES][i / NUMBER_OF_GUESSES].getText().charAt(0);
+                    char letter = letterGrid[i % WORD_LENGTH][i / WORD_LENGTH].getText().charAt(0);
                     wordArray[k] = letter;
                     k++;
                 }
@@ -62,26 +62,26 @@ public class GameArea implements KeyListener {
                     }
                 } else {
                         for(int i = position - WORD_LENGTH; i < position; i++){
-                            letterGrid[i%NUMBER_OF_GUESSES][i/NUMBER_OF_GUESSES].setText("");
+                            letterGrid[i%WORD_LENGTH][i/WORD_LENGTH].setText("");
                         }
                         lettersWritten = 0;
                         position = position - 5;
                     }
             }
             else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                letterGrid[(position - 1)%NUMBER_OF_GUESSES][(position - 1)/NUMBER_OF_GUESSES].setText("");
+                letterGrid[(position - 1)%WORD_LENGTH][(position - 1)/WORD_LENGTH].setText("");
                 position = position - 1;
                 lettersWritten = lettersWritten - 1;
             }
         } else if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
                 if(lettersWritten != 0){
-                    letterGrid[(position - 1)%NUMBER_OF_GUESSES][(position - 1)/NUMBER_OF_GUESSES].setText("");
+                    letterGrid[(position - 1)%WORD_LENGTH][(position - 1)/WORD_LENGTH].setText("");
                     position = position - 1;
                     lettersWritten = lettersWritten - 1;
                 } else
-                    letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText("");
+                    letterGrid[position%WORD_LENGTH][position/WORD_LENGTH].setText("");
         } else {
-            letterGrid[position%NUMBER_OF_GUESSES][position/NUMBER_OF_GUESSES].setText(""+e.getKeyChar());
+            letterGrid[position%WORD_LENGTH][position/WORD_LENGTH].setText(""+e.getKeyChar());
             position = position + 1;
             lettersWritten = lettersWritten + 1;
         }
