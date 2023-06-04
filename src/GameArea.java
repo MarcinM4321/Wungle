@@ -32,19 +32,18 @@ public class GameArea implements KeyListener {
             for (int y=0; y < WORD_LENGTH; y++) {
                 letterGrid[y][x] = new JLabel("("+x+","+y+")");
                 letterGrid[y][x].setSize(10,10);
+                letterGrid[y][x].setOpaque(true);
                 mainPanel.add(letterGrid[y][x]);
             }
         }
     }
 //TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyGuesses = 6
-    //TODO zmieniające się kolory kratek
     //TODO uniemożliwienie wpisywania innych znaków w grid niż liter
     @Override
     public void keyTyped(KeyEvent e) {
         if(lettersWritten == 5){
             wordArray = new char[5];
             if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-
                 for(int i = 0; i < WORD_LENGTH; i++){
                     char letter = letterGrid[i][howManyGuesses].getText().charAt(0);
                     wordArray[i] = letter;
@@ -55,8 +54,16 @@ public class GameArea implements KeyListener {
 
                 if(allowedWords.isWordAllowed(guessWord)){
                     if (guessWord.equals(choosenWord))
-                        System.out.println("Wygrałeś");
+                        for(int i = 0; i < WORD_LENGTH; i++)
+                            letterGrid[i][howManyGuesses].setBackground(Color.GREEN);
                     else {
+                        for(int i = 0; i < WORD_LENGTH; i++){
+                            if(choosenWord.charAt(i) == wordArray[i])
+                                letterGrid[i][howManyGuesses].setBackground(Color.GREEN);
+                            else if (choosenWord.contains("" + wordArray[i]))
+                                letterGrid[i][howManyGuesses].setBackground(Color.ORANGE);
+                            else letterGrid[i][howManyGuesses].setBackground(Color.RED);
+                        }
                         howManyGuesses = howManyGuesses + 1;
                         lettersWritten = 0;
                     }
