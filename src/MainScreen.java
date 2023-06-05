@@ -51,7 +51,5 @@ public class MainScreen {
         SelectScreen selectScreen = new SelectScreen(gameProfile);
     }
 
-    public static void main(String[] args){
-        new MainScreen();
-    }
+    public static void main(String[] args){new MainScreen();}
 }

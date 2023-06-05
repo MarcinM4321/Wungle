@@ -9,6 +9,7 @@ public class GameArea implements KeyListener {
     WordList allowedWords;
     static final int WORD_LENGTH = 5;
     static final int NUMBER_OF_GUESSES = 6;
+    private final String allowedLetters = "qwertyuiopasdfghjklzxcvbnmęóąśłżźćń";
     private final String choosenWord;
     private int lettersWritten = 0;
     private int position = 0;
@@ -37,7 +38,6 @@ public class GameArea implements KeyListener {
         }
     }
 //TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyGuesses = 6
-    //TODO uniemożliwienie wpisywania innych znaków w grid niż liter
     @Override
     public void keyTyped(KeyEvent e) {
         if(lettersWritten == 5){
@@ -52,9 +52,11 @@ public class GameArea implements KeyListener {
                 System.out.println(guessWord);
 
                 if(allowedWords.isWordAllowed(guessWord)){
-                    if (guessWord.equals(choosenWord))
+                    if (guessWord.equals(choosenWord)){
                         for(int i = 0; i < WORD_LENGTH; i++)
                             letterGrid[i][howManyGuesses].setBackground(Color.GREEN);
+                        System.out.println("Gratulacje, odgadłeś słowo");
+                    }
                     else {
                         for(int i = 0; i < WORD_LENGTH; i++){
                             if(choosenWord.charAt(i) == wordArray[i])
@@ -73,6 +75,8 @@ public class GameArea implements KeyListener {
                         lettersWritten = 0;
                         position = position - 5;
                     }
+                if(howManyGuesses == 6)
+                    System.out.println("Przegrałeś, szukane słowo brzmiało: " + choosenWord);
             }
             else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                 letterGrid[(position - 1)%WORD_LENGTH][(position - 1)/WORD_LENGTH].setText("");
@@ -86,7 +90,7 @@ public class GameArea implements KeyListener {
                     lettersWritten = lettersWritten - 1;
                 } else
                     letterGrid[position%WORD_LENGTH][position/WORD_LENGTH].setText("");
-        } else {
+        } else if (allowedLetters.contains("" + e.getKeyChar())) {
             letterGrid[position%WORD_LENGTH][position/WORD_LENGTH].setText(""+e.getKeyChar());
             position = position + 1;
             lettersWritten = lettersWritten + 1;
