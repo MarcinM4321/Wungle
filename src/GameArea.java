@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class GameArea implements KeyListener {
     JPanel mainPanel;
@@ -9,8 +10,8 @@ public class GameArea implements KeyListener {
     WordList allowedWords;
     static final int WORD_LENGTH = 5;
     static final int NUMBER_OF_GUESSES = 6;
-    private final String allowedLetters = "qwertyuiopasdfghjklzxcvbnmęóąśłżźćń";
     private final String choosenWord;
+    private ArrayList<String> allGuesses = new ArrayList<>();
     private int lettersWritten = 0;
     private int position = 0;
     private int howManyGuesses = 0; //będę tym sprawdzał ile prób wykonał gracz
@@ -40,6 +41,7 @@ public class GameArea implements KeyListener {
 //TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyGuesses = 6
     @Override
     public void keyTyped(KeyEvent e) {
+        String allowedLetters = "qwertyuiopasdfghjklzxcvbnmęóąśłżźćń";
         if(lettersWritten == 5){
             char[] wordArray = new char[5];
             if (e.getKeyChar() == KeyEvent.VK_ENTER) {
@@ -52,10 +54,13 @@ public class GameArea implements KeyListener {
                 System.out.println(guessWord);
 
                 if(allowedWords.isWordAllowed(guessWord)){
+                    allGuesses.add(guessWord);
                     if (guessWord.equals(choosenWord)){
                         for(int i = 0; i < WORD_LENGTH; i++)
                             letterGrid[i][howManyGuesses].setBackground(Color.GREEN);
                         System.out.println("Gratulacje, odgadłeś słowo");
+                        System.out.println(allGuesses);
+                        //profile.addNewGameHistory(choosenWord, howManyGuesses, allGuesses);
                     }
                     else {
                         for(int i = 0; i < WORD_LENGTH; i++){
@@ -75,8 +80,11 @@ public class GameArea implements KeyListener {
                         lettersWritten = 0;
                         position = position - 5;
                     }
-                if(howManyGuesses == 6)
+                if(howManyGuesses == 6){
                     System.out.println("Przegrałeś, szukane słowo brzmiało: " + choosenWord);
+                    System.out.println(allGuesses);
+                    //profile.addNewGameHistory(choosenWord, howManyGuesses, allGuesses);
+                }
             }
             else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                 letterGrid[(position - 1)%WORD_LENGTH][(position - 1)/WORD_LENGTH].setText("");
