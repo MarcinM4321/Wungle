@@ -146,10 +146,9 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         selectPanel.add(profileChooser,profileChooserGBC);
         selectPanel.add(newUsername,newUserNameGBC);
 
-        buttonConfirm.setVisible(false);
-        profileChooser.setVisible(false);
-
-
+        //deaktywowanie komponentów z 2 strony
+        setVisible2page(false);
+        setEnabled2page(false);
     }
 
 
@@ -229,10 +228,9 @@ class Buttons extends JButton {//klasa pomocnicza, tworząca guzik
 }
 
 class ButtonsGrid extends GridBagConstraints {//klasa pomocnicza, ustawiająca pozycje guzików
-    GridBagConstraints gridcos = new GridBagConstraints();
-    public ButtonsGrid(int gridx, int gridy) {
-        gridx = gridx;
-        gridy = gridy;
+    public ButtonsGrid(int gridxx, int gridyy) {
+        gridx = gridxx;
+        gridy = gridyy;
         new Insets(70,0,0,0);
         gridheight = 50;
     }
