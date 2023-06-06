@@ -26,7 +26,6 @@ public class MainScreen {
         });
         mainGUIFrame.setContentPane(mainPanel);
         mainGUIFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         mainGUIFrame.setBounds(180,180,400,600);
         mainGUIFrame.show();
         mainGUIFrame.setFocusable(true);

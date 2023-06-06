@@ -80,28 +80,16 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
     private static final int DEFAULT_Y_POSITION = 150;//domyślne położenie okna - y-owa współrzędna (na wysokość)
     private JTextField newUsername;//użytkownik może zechcieć wpisać nazwę nowego użytkownika
     private JComboBox profileChooser;//użytkownik zamiast wpisywać nazwę nowego użytkownika może zechcieć wybrać juz istniejącego
+    private JTextArea infoAboutChoise,infoAboutProfile;//pole tekstowe, które będziemy wyświetlać w momencie, gdy wybieramy profile oraz w glownym menu - powie nam, jaki profil wybraliśmy
     private SelectScreenPanel selectPanel;//deklaracja panelu jako atrybut
     private Buttons buttonGame, buttonStats, buttonProfiles, buttonConfirm;//deklaracja guzików jako atrybuty
-    private ButtonsGrid buttonGameGBC, buttonStatsGBC, buttonProfilesGBC, buttonConfirmGBC, profileChooserGBC, newUserNameGBC;//deklaracja pozycjonowania guzików jako atrybuty
+    private GridBagConstraints buttonGameGBC, buttonStatsGBC, buttonProfilesGBC, buttonConfirmGBC, profileChooserGBC, newUserNameGBC, infoAboutChoiseGBC, infoAboutProfileGBC;//deklaracja pozycjonowania guzików jako atrybuty
     private MainGameProfile profile;
     private ArrayList<String> allUsersNames;
     public SelectScreenFrame(MainGameProfile profile) {
         //ściągnięcie danych o profilach
         this.profile = profile;
         this.allUsersNames = profile.getAllUsernames();
-        {
-            JComboBox profileChooserHelp = new JComboBox();
-            for (int i = 0; i < allUsersNames.size(); i++) {
-                profileChooserHelp.addItem(allUsersNames.get(i));
-            }
-            this.profileChooser = profileChooserHelp;
-        }
-        this.newUsername = new JTextField();
-
-        for(int i = 0; i < allUsersNames.size(); i++) {
-            this.profileChooser.addItem(allUsersNames.get(i));
-        }
-        this.newUsername = new JTextField();
 
         //parametry początkowe okna
         setTitle("Wordle");//ustawienie tytułu okna
@@ -112,11 +100,41 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         pack();//bez tego okno jest zminimalizowane i nic nie widać
         setVisible(true);//okno domyślnie jest widoczne
 
+        //wpisanie do ComboBoxa nazw wszystkich profili - zrobione w bloku kodu, żeby nie zaśmiecać pamięci
+        {
+            JComboBox profileChooserHelp = new JComboBox();
+            for (int i = 0; i < allUsersNames.size(); i++) {
+                profileChooserHelp.addItem(allUsersNames.get(i));
+            }
+            this.profileChooser = profileChooserHelp;
+        }
+
+        //zadeklarowanie pól związanych z tekstem i ukrycie ich
+        this.newUsername = new JTextField();
+        this.infoAboutChoise = new JTextArea("Wybierz profil z listy użytkowników już istniejących lub wpisz nazwę nowego użytkownika.");
+        this.infoAboutProfile = new JTextArea();
+        infoAboutProfile.setVisible(false);
+        infoAboutChoise.setVisible(false);
+
         //deklaracja guzików
         this.buttonGame = new Buttons("Rozpocznij nową grę!",true,false,false);//guzik "Rozpocznij nową grę"
         this.buttonStats = new Buttons("Pokaż statystyki profilu",true,false,false);//guzik "Pokaż statystyki"
         this.buttonProfiles = new Buttons("Wybierz profil",true,true,false);//guzik "Wybierz profil"
         this.buttonConfirm = new Buttons("Zatwierdź wybór",false,false,false);
+
+        //przypisanie guzikom rozmiarów
+        buttonGame.setPreferredSize(new Dimension(200,30));
+        buttonStats.setPreferredSize(new Dimension(200,30));
+        buttonProfiles.setPreferredSize(new Dimension(200,30));
+        buttonConfirm.setPreferredSize(new Dimension(200,30));
+        profileChooser.setPreferredSize(new Dimension(100,30));
+        newUsername.setPreferredSize(new Dimension(400,30));
+        infoAboutChoise.setPreferredSize(new Dimension(700,30));
+        infoAboutProfile.setPreferredSize(new Dimension(700,30));
+
+        //kasowanie tła pól tekstowych - żeby były przezroczyste
+        infoAboutChoise.setBackground(Color.lightGray);
+        infoAboutProfile.setBackground(Color.lightGray);
 
         //przypisanie ActionListenerów do guzików
         buttonGame.addActionListener(new ButtonGameListener(profile));
@@ -124,19 +142,48 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         buttonProfiles.addActionListener(new ButtonProfilesListener());
         buttonConfirm.addActionListener(new ButtonConfirmListener());
 
+        //deklaracja GBC dla guzików (GridBagConstrains) - umożliwia to pozycjonowanie guzika w gridzie
+        this.buttonGameGBC = new GridBagConstraints();
+        this.buttonStatsGBC = new GridBagConstraints();
+        this.buttonProfilesGBC = new GridBagConstraints();
+        this.buttonConfirmGBC = new GridBagConstraints();
+        this.profileChooserGBC = new GridBagConstraints();
+        this.newUserNameGBC = new GridBagConstraints();
+        this.infoAboutChoiseGBC = new GridBagConstraints();
+        this.infoAboutProfileGBC = new GridBagConstraints();
+
+        //ustawienie GBC dla komponentów
+        buttonGameGBC.gridx = 0;
+        buttonStatsGBC.gridx = 0;
+        buttonProfilesGBC.gridx = 0;
+        buttonConfirmGBC.gridx = 0;
+        profileChooserGBC.gridx = 0;
+        newUserNameGBC.gridx = 0;
+        infoAboutChoiseGBC.gridx = 0;
+        infoAboutProfileGBC.gridx = 0;
+
+        buttonGameGBC.gridy = 0;
+        buttonStatsGBC.gridy = 0;
+        buttonProfilesGBC.gridy = 0;
+        buttonConfirmGBC.gridy = 0;
+        profileChooserGBC.gridy = 0;
+        newUserNameGBC.gridy = 0;
+        infoAboutChoiseGBC.gridy = 0;
+        infoAboutProfileGBC.gridy = 0;
+
+        buttonGameGBC.insets = new Insets(150,0,0,0);
+        buttonStatsGBC.insets = new Insets(220,0,0,0);
+        buttonProfilesGBC.insets = new Insets(290,0,0,0);
+        buttonConfirmGBC.insets = new Insets(550,0,0,0);
+        profileChooserGBC.insets = new Insets(150,0,0,0);
+        newUserNameGBC.insets = new Insets(350,0,0,0);
+        infoAboutProfileGBC.insets = new Insets(0,0,0,0);
+        infoAboutChoiseGBC.insets = new Insets(0,0,0,0);
+
         this.selectPanel = new SelectScreenPanel(); //deklaracja panelu głównego
         selectPanel.repaint();//wyrysowanie napisu "WORDLE"
         selectPanel.setLayout(new GridBagLayout());//ustawienie nowego Layoutu - GridBagLayout
         setContentPane(selectPanel);
-
-
-        //deklaracja GBC dla guzików (GridBagConstrains) - umożliwia to pozycjonowanie guzika w gridzie
-        this.buttonGameGBC = new ButtonsGrid(0,0);
-        this.buttonStatsGBC = new ButtonsGrid(0,1);
-        this.buttonProfilesGBC = new ButtonsGrid(0,2);
-        this.buttonConfirmGBC = new ButtonsGrid(0,0);
-        this.profileChooserGBC = new ButtonsGrid(0,3);
-        this.newUserNameGBC = new ButtonsGrid(0,5);
 
         //dodanie komponentów do panelu
         selectPanel.add(buttonGame,buttonGameGBC);
@@ -145,6 +192,8 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         selectPanel.add(buttonConfirm,buttonConfirmGBC);
         selectPanel.add(profileChooser,profileChooserGBC);
         selectPanel.add(newUsername,newUserNameGBC);
+        selectPanel.add(infoAboutChoise,infoAboutChoiseGBC);
+        selectPanel.add(infoAboutProfile,infoAboutProfileGBC);
 
         //deaktywowanie komponentów z 2 strony
         setVisible2page(false);
@@ -188,6 +237,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
             //ustawiam komponenty z 2 strony
             setVisible2page(true);
             setEnabled2page(true);
+            infoAboutChoise.setVisible(true);
         }
     }
     private class ButtonConfirmListener implements ActionListener {
@@ -200,6 +250,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
             if(!newUsername.getText().equals("")) {
                 System.out.println("text: \""+ newUsername.getText()+"\"");
                 wasSuccessful =  profile.createProfile(newUsername.getText());
+                infoAboutProfile = new JTextArea("Wybrałeś profil: " + newUsername.getText());
             }
             else {
                 int index = profileChooser.getSelectedIndex();
@@ -208,9 +259,11 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
             //ustawiam komponenty z 2 strony
             setVisible2page(false);
             setEnabled2page(false);
+            infoAboutChoise.setVisible(false);
             //ustawiam komponenty z 1 strony
             setVisible1page(true);//widzialność
             setEnabled1page(true);//użyteczność
+            infoAboutProfile.setVisible(true);
         }
     }
 
@@ -220,19 +273,10 @@ class Buttons extends JButton {//klasa pomocnicza, tworząca guzik
     public Buttons(String buttonName, boolean IfVisible, boolean IfEnabled, boolean IfFocusable) {//konstruktor klasy JButton
         setFont(new Font("Arial", Font.PLAIN, 17));//ustawienie czcionki
         setBackground(Color.lightGray);//domyślnie jest koloru jasno-szarego
-        setPreferredSize(new Dimension(200,30));//domyślnie ma rozmiary 200 x 30
+        setSize(new Dimension(200,30));//domyślnie ma rozmiary 200 x 30
         setFocusable(IfFocusable);//domyślnie nie zabiera focusu przy tworzeniu
         setVisible(IfVisible);//domyślnie guzik pojawia sie
         setEnabled(IfEnabled);//domyślnie można go wciskać
         setText(buttonName);//ustawienie napisu na guziku
-    }
-}
-
-class ButtonsGrid extends GridBagConstraints {//klasa pomocnicza, ustawiająca pozycje guzików
-    public ButtonsGrid(int gridx, int gridy) {
-        gridx = gridx;
-        gridy = gridy;
-        new Insets(150,150,150,150);
-        gridheight = 50;
     }
 }
