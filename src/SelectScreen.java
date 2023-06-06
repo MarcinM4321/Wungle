@@ -80,7 +80,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
     private static final int DEFAULT_Y_POSITION = 150;//domyślne położenie okna - y-owa współrzędna (na wysokość)
     private JTextField newUsername;//użytkownik może zechcieć wpisać nazwę nowego użytkownika
     private JComboBox profileChooser;//użytkownik zamiast wpisywać nazwę nowego użytkownika może zechcieć wybrać juz istniejącego
-    private JTextArea infoAboutChoise,infoAboutProfile;//pole tekstowe, które będziemy wyświetlać w momencie, gdy wybieramy profile oraz w glownym menu - powie nam, jaki profil wybraliśmy
+    private JLabel infoAboutChoise,infoAboutProfile;//pole tekstowe, które będziemy wyświetlać w momencie, gdy wybieramy profile oraz w glownym menu - powie nam, jaki profil wybraliśmy
     private SelectScreenPanel selectPanel;//deklaracja panelu jako atrybut
     private Buttons buttonGame, buttonStats, buttonProfiles, buttonConfirm;//deklaracja guzików jako atrybuty
     private GridBagConstraints buttonGameGBC, buttonStatsGBC, buttonProfilesGBC, buttonConfirmGBC, profileChooserGBC, newUserNameGBC, infoAboutChoiseGBC, infoAboutProfileGBC;//deklaracja pozycjonowania guzików jako atrybuty
@@ -111,8 +111,8 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
 
         //zadeklarowanie pól związanych z tekstem i ukrycie ich
         this.newUsername = new JTextField();
-        this.infoAboutChoise = new JTextArea("Wybierz profil z listy użytkowników już istniejących lub wpisz nazwę nowego użytkownika.");
-        this.infoAboutProfile = new JTextArea();
+        this.infoAboutChoise = new JLabel("Wybierz profil z listy użytkowników już istniejących lub wpisz nazwę nowego użytkownika.");
+        this.infoAboutProfile = new JLabel("Wybrałeś profil: ");
         infoAboutProfile.setVisible(false);
         infoAboutChoise.setVisible(false);
 
@@ -129,8 +129,8 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         buttonConfirm.setPreferredSize(new Dimension(200,30));
         profileChooser.setPreferredSize(new Dimension(100,30));
         newUsername.setPreferredSize(new Dimension(400,30));
-        infoAboutChoise.setPreferredSize(new Dimension(700,30));
-        infoAboutProfile.setPreferredSize(new Dimension(700,30));
+        infoAboutChoise.setPreferredSize(new Dimension(600,30));
+        infoAboutProfile.setPreferredSize(new Dimension(600,30));
 
         //kasowanie tła pól tekstowych - żeby były przezroczyste
         infoAboutChoise.setBackground(Color.lightGray);
@@ -142,7 +142,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         buttonProfiles.addActionListener(new ButtonProfilesListener());
         buttonConfirm.addActionListener(new ButtonConfirmListener());
 
-        //deklaracja GBC dla guzików (GridBagConstrains) - umożliwia to pozycjonowanie guzika w gridzie
+        //deklaracja GBC dla komponentów (GridBagConstrains) - umożliwia to pozycjonowanie guzika w gridzie
         this.buttonGameGBC = new GridBagConstraints();
         this.buttonStatsGBC = new GridBagConstraints();
         this.buttonProfilesGBC = new GridBagConstraints();
@@ -248,13 +248,13 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         public void actionPerformed(ActionEvent e) {
             Boolean wasSuccessful;
             if(!newUsername.getText().equals("")) {
-                System.out.println("text: \""+ newUsername.getText()+"\"");
                 wasSuccessful =  profile.createProfile(newUsername.getText());
-                infoAboutProfile = new JTextArea("Wybrałeś profil: " + newUsername.getText());
+                infoAboutProfile = new JLabel("Wybrałeś profil: " + newUsername.getText());
             }
             else {
                 int index = profileChooser.getSelectedIndex();
                 wasSuccessful = profile.loadProfile(index);
+                infoAboutProfile = new JLabel("Wybrałeś profil: " + allUsersNames.get(index));
             }
             //ustawiam komponenty z 2 strony
             setVisible2page(false);
