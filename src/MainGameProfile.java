@@ -47,14 +47,13 @@ public class MainGameProfile {
     }
 
     public void addNewGameHistory(SingleGameHistory hist) {
-
         currentProfile.addNewGameHistory(hist);
         saveProfile();
     }
 
     public Boolean createProfile(String username) {
         if (allUsernames.contains(username)) {
-            errorMessenger.showError("Użytkownik o takiej nazwie już istnieje");
+            errorMessenger.showError("Użytkownik o takiej nazwie już istnieje!");
             return false;
         }
 
@@ -67,7 +66,6 @@ public class MainGameProfile {
         allUsersID.add(newID);
         allUsernames.add(username);
         saveProfile();
-
         saveListOfUsers();
         return true;
     }

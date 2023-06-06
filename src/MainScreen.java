@@ -1,5 +1,3 @@
-
-
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -11,8 +9,6 @@ public class MainScreen {
     private JPanel mainPanel;
     private JButton showHistoryButton;
     private JPanel wordlePanel;
-
-
 
     public MainScreen() {
         JFrame mainGUIFrame = new JFrame("Wordle");
@@ -31,7 +27,7 @@ public class MainScreen {
         mainGUIFrame.setContentPane(mainPanel);
         mainGUIFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        mainGUIFrame.setBounds(10,10,400,600);
+        mainGUIFrame.setBounds(180,180,400,600);
         mainGUIFrame.show();
         mainGUIFrame.setFocusable(true);
         mainGUIFrame.addKeyListener(game);
@@ -51,7 +47,5 @@ public class MainScreen {
         SelectScreen selectScreen = new SelectScreen(gameProfile);
     }
 
-    public static void main(String[] args){
-        new MainScreen();
-    }
+    public static void main(String[] args){new MainScreen();}
 }
