@@ -149,6 +149,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         //deaktywowanie komponentów z 2 strony
         setVisible2page(false);
         setEnabled2page(false);
+        //aktywowanie komponentów z 1 strony
     }
 
 
@@ -228,10 +229,10 @@ class Buttons extends JButton {//klasa pomocnicza, tworząca guzik
 }
 
 class ButtonsGrid extends GridBagConstraints {//klasa pomocnicza, ustawiająca pozycje guzików
-    public ButtonsGrid(int gridxx, int gridyy) {
-        gridx = gridxx;
-        gridy = gridyy;
-        new Insets(70,0,0,0);
+    public ButtonsGrid(int gridx, int gridy) {
+        gridx = gridx;
+        gridy = gridy;
+        new Insets(150,150,150,150);
         gridheight = 50;
     }
 }
