@@ -140,7 +140,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         infoAboutProfile.setBackground(Color.lightGray);
 
         //przypisanie ActionListenerów do guzików
-        buttonGame.addActionListener(new ButtonGameListener(profile));
+        buttonGame.addActionListener(new ButtonGameListener(profile, this));
         buttonStats.addActionListener(new ButtonStatsListener(profile));
         buttonProfiles.addActionListener(new ButtonProfilesListener());
         buttonConfirm.addActionListener(new ButtonConfirmListener());
@@ -210,13 +210,15 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
     //sekcja listenerów
     private class ButtonGameListener implements ActionListener {
         private MainGameProfile WhatProfile;
-        public ButtonGameListener(MainGameProfile profile) {
+        private SelectScreenFrame parentScreen;
+        public ButtonGameListener(MainGameProfile profile, SelectScreenFrame parentScreen) {
             this.WhatProfile = profile;
+            this.parentScreen = parentScreen;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
             setVisible(false);
-            new MainScreen(this.WhatProfile);
+            new MainScreen(this.WhatProfile, parentScreen);
         }
     }
     private class ButtonStatsListener implements ActionListener {

@@ -7,17 +7,20 @@ public class MainScreen extends JFrame {
     final private MainGameProfile gameProfile;
     private GameArea game;
 
-    private JPanel mainPanel;
     private JButton showHistoryButton;
+    private JButton returnToMenu;
+    private SelectScreenFrame parentScreen;
     private JPanel wordlePanel;
 
-    public MainScreen(MainGameProfile profile) {
+    public MainScreen(MainGameProfile profile, SelectScreenFrame parentScreen) {
         setTitle("Wordle");
-
+        this.parentScreen = parentScreen;
         JPanel buttonPanel = new JPanel();
 
         showHistoryButton =  new JButton("pokaż historie");
+        returnToMenu = new JButton("powrót");
         buttonPanel.add(showHistoryButton);
+        buttonPanel.add(returnToMenu);
         add(buttonPanel, BorderLayout.PAGE_START);
 
         JPanel bottomPanel = new JPanel();
@@ -32,6 +35,17 @@ public class MainScreen extends JFrame {
         game = new GameArea(wordlePanel, gameProfile);
 
         //wordlePanel.setSize(300, 400);
+        returnToMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentScreen.setVisible(true);
+                parentScreen.setVisible2page(false);
+                parentScreen.setEnabled2page(false);
+                parentScreen.setVisible1page(true);
+                parentScreen.setEnabled1page(true);
+                dispose();
+            }
+        });
         showHistoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,5 +74,5 @@ public class MainScreen extends JFrame {
         });
     }
 
-    public static void main(String[] args){new MainScreen(new MainGameProfile(new ErrorMessenger(new JFrame("test"))));}
+    //public static void main(String[] args){new MainScreen(new MainGameProfile(new ErrorMessenger(new JFrame("test"))));}
 }
