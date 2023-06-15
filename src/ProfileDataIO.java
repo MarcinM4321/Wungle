@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -20,12 +21,13 @@ public class ProfileDataIO {
                 int cur_num_of_guesses = input.nextInt();
                 String guess = input.nextLine().substring(1); // nie uwzględniam spacji pomiędzy.
 
-                String[] allGuesses = new String[cur_num_of_guesses];
+                //String[] allGuesses = new String[cur_num_of_guesses];
+                ArrayList<String> allGuesses = new ArrayList<String>();
                 for (int i = 0; i < cur_num_of_guesses; i++) {
-                    allGuesses[i] = input.nextLine(); // usuwam rodzielający
+                    allGuesses.add(input.nextLine());
                 }
 
-                result.addNewGameHistory(new SingleGameHistory(guess, cur_num_of_guesses, allGuesses));
+                result.addNewGameHistory(new SingleGameHistory(guess, allGuesses));
             }
             input.close();
             fr.close();
@@ -53,9 +55,9 @@ public class ProfileDataIO {
 
                 bw.write(game.getNumberOfGuesses()+" "+game.getTarget()+"\n");
 
-                String[] guess = game.getAllGuesses();
+                ArrayList<String> guess = game.getAllGuesses();
                 for (int i = 0; i < game.getNumberOfGuesses(); i++) {
-                    bw.write(guess[i] + "\n");
+                    bw.write(guess.get(i) + "\n");
                 }
             }
             bw.close();

@@ -1,35 +1,35 @@
+import java.util.ArrayList;
+
 public class SingleGameHistory {
     private String target;
-    private int numberOfGuesses;
-    private String[] allGuesses;
+    private ArrayList<String> allGuesses;
 
     private static final int MAX_NUMBER_OF_GUESSES = 6;
 
-    SingleGameHistory(String target, int numberOfGuesses, String[] allGuesses) {
+    SingleGameHistory(String target, ArrayList<String> allGuesses) {
         this.target = target;
-        this.numberOfGuesses = numberOfGuesses;
-        this.allGuesses = new String[numberOfGuesses];
-        for (int i=0; i<numberOfGuesses; i++) {
-            this.allGuesses[i] = allGuesses[i];
+        this.allGuesses = new ArrayList<String>();
+        for (int i=0; i < allGuesses.size(); i++) {
+            this.allGuesses.add(allGuesses.get(i));
         }
     }
 
     Boolean isWinning() {
-        return allGuesses[numberOfGuesses - 1].equals(target);
+        return allGuesses.get(allGuesses.size()-1).equals(target);
     }
 
     Boolean isFinnished() {
-        return (numberOfGuesses == 6) || isWinning();
+        return (allGuesses.size() == 6) || isWinning();
     }
     String getTarget() {
         return target;
     }
 
     int getNumberOfGuesses() {
-        return numberOfGuesses;
+        return allGuesses.size();
     }
 
-    String[] getAllGuesses() {
+    ArrayList<String> getAllGuesses() {
         return allGuesses;
     }
 }

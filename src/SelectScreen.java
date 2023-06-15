@@ -7,12 +7,13 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class SelectScreen {
-    private final MainGameProfile profile;
-    public SelectScreen(MainGameProfile profile) {//klasa wywołująca okno
-        this.profile = profile;//przypisanie argumentu konstruktora do atrybutu profilu
-        ArrayList<String> allUsersNames = profile.getAllUsernames();//zaczytanie nazwy wszystkich profili
-        SelectScreenFrame selectScreenFrame = new SelectScreenFrame(profile);
+    public SelectScreen() {//klasa wywołująca okno
+        SelectScreenFrame selectScreenFrame = new SelectScreenFrame();
         selectScreenFrame.render();
+    }
+
+    public static void main(String[] args) {
+        new SelectScreen();
     }
 }
 class SelectScreenPanel extends JPanel implements ActionListener, KeyListener {//klasa pomocnicza, tworząca panel
@@ -46,7 +47,7 @@ class SelectScreenPanel extends JPanel implements ActionListener, KeyListener {/
     }
 }
 
-class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
+class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa pomocnicza, tworząca okno
     void render() {//funkcja, żeby jej wywoływanie profesjonalnie wyglądało :)
         pack();
         selectPanel.repaint();
@@ -86,9 +87,13 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
     private GridBagConstraints buttonGameGBC, buttonStatsGBC, buttonProfilesGBC, buttonConfirmGBC, profileChooserGBC, newUserNameGBC, infoAboutChoiseGBC, infoAboutProfileGBC;//deklaracja pozycjonowania guzików jako atrybuty
     private MainGameProfile profile;
     private ArrayList<String> allUsersNames;
-    public SelectScreenFrame(MainGameProfile profile) {
+    private MainScreen FrameWithGame;
+
+    private Boolean isNightMode;
+    public SelectScreenFrame() {
+
         //ściągnięcie danych o profilach
-        this.profile = profile;
+        this.profile = new MainGameProfile(new ErrorMessenger(this));
         this.allUsersNames = profile.getAllUsernames();
 
         //parametry początkowe okna
@@ -108,6 +113,9 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
             }
             this.profileChooser = profileChooserHelp;
         }
+
+        //czy jest tryb nocny
+        isNightMode = Boolean.FALSE;
 
         //zadeklarowanie pól związanych z tekstem i ukrycie ich
         this.newUsername = new JTextField();
@@ -137,7 +145,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         infoAboutProfile.setBackground(Color.lightGray);
 
         //przypisanie ActionListenerów do guzików
-        buttonGame.addActionListener(new ButtonGameListener(profile));
+        buttonGame.addActionListener(new ButtonGameListener(profile, this));
         buttonStats.addActionListener(new ButtonStatsListener(profile));
         buttonProfiles.addActionListener(new ButtonProfilesListener());
         buttonConfirm.addActionListener(new ButtonConfirmListener());
@@ -201,18 +209,42 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         //aktywowanie komponentów z 1 strony
     }
 
+    public void returnFromGameScreen(boolean isNightMode) {
+        setVisible(true);
+        setVisible2page(false);
+        setEnabled2page(false);
+        setVisible1page(true);
+        setEnabled1page(true);
+        this.isNightMode = isNightMode;
+        if (isNightMode)
+            setToNightMode();
+        else
+            setToDayMode();
+    }
+    @Override
+    public void setToDayMode() {
+        selectPanel.setBackground(Color.white);
+    }
 
+    @Override
+    public void setToNightMode() {
+        selectPanel.setBackground(Color.black);
+        System.out.println("Ustawiam tryb nocny");
+    }
 
 
     //sekcja listenerów
     private class ButtonGameListener implements ActionListener {
         private MainGameProfile WhatProfile;
-        public ButtonGameListener(MainGameProfile profile) {
+        private SelectScreenFrame parentScreen;
+        public ButtonGameListener(MainGameProfile profile, SelectScreenFrame parentScreen) {
             this.WhatProfile = profile;
+            this.parentScreen = parentScreen;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
             setVisible(false);
+            new MainScreen(this.WhatProfile, parentScreen, isNightMode);
         }
     }
     private class ButtonStatsListener implements ActionListener {
