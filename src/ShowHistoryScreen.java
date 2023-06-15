@@ -2,6 +2,7 @@
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import java.util.ArrayList;
 
 public class ShowHistoryScreen {
     ProfileData profile;
@@ -57,8 +58,9 @@ public class ShowHistoryScreen {
 
         for (int i = 0; i <profile.getNumberOfGames(); i++) {
             SingleGameHistory game = profile.getSingleHistory(i);
-            System.out.println(game.getTarget()+" "+game.getAllGuesses()[game.getNumberOfGuesses()-1]);
-            System.out.println(game.getTarget().equals(game.getAllGuesses()[game.getNumberOfGuesses()-1]));
+            String last_word = game.getAllGuesses().get(game.getNumberOfGuesses()-1);
+            System.out.println(game.getTarget()+" "+last_word);
+            System.out.println(game.getTarget().equals(last_word));
             if (game.isFinnished()) {
                 numberOfFinishedGames++;
                 if (game.isWinning()) {
@@ -77,9 +79,9 @@ public class ShowHistoryScreen {
             SingleGameHistory game = profile.getSingleHistory(i);
             DefaultMutableTreeNode nodeForGame = new DefaultMutableTreeNode(game.getTarget() + " - cel");
             topNode.add(nodeForGame);
-            String[] gameGuesses = game.getAllGuesses();
+            ArrayList<String> gameGuesses = game.getAllGuesses();
             for (int j=0; j < game.getNumberOfGuesses(); j++) {
-                nodeForGame.add(new DefaultMutableTreeNode(gameGuesses[j]));
+                nodeForGame.add(new DefaultMutableTreeNode(gameGuesses.get(j)));
             }
         }
     }
