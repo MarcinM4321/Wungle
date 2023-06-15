@@ -7,12 +7,13 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class SelectScreen {
-    private final MainGameProfile profile;
-    public SelectScreen(MainGameProfile profile) {//klasa wywołująca okno
-        this.profile = profile;//przypisanie argumentu konstruktora do atrybutu profilu
-        ArrayList<String> allUsersNames = profile.getAllUsernames();//zaczytanie nazwy wszystkich profili
-        SelectScreenFrame selectScreenFrame = new SelectScreenFrame(profile);
+    public SelectScreen() {//klasa wywołująca okno
+        SelectScreenFrame selectScreenFrame = new SelectScreenFrame();
         selectScreenFrame.render();
+    }
+
+    public static void main(String[] args) {
+        new SelectScreen();
     }
 }
 class SelectScreenPanel extends JPanel implements ActionListener, KeyListener {//klasa pomocnicza, tworząca panel
@@ -86,9 +87,11 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
     private GridBagConstraints buttonGameGBC, buttonStatsGBC, buttonProfilesGBC, buttonConfirmGBC, profileChooserGBC, newUserNameGBC, infoAboutChoiseGBC, infoAboutProfileGBC;//deklaracja pozycjonowania guzików jako atrybuty
     private MainGameProfile profile;
     private ArrayList<String> allUsersNames;
-    public SelectScreenFrame(MainGameProfile profile) {
+
+    private MainScreen FrameWithGame;
+    public SelectScreenFrame() {
         //ściągnięcie danych o profilach
-        this.profile = profile;
+        this.profile = new MainGameProfile(new ErrorMessenger(this));
         this.allUsersNames = profile.getAllUsernames();
 
         //parametry początkowe okna
@@ -213,6 +216,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         @Override
         public void actionPerformed(ActionEvent e) {
             setVisible(false);
+            new MainScreen(this.WhatProfile);
         }
     }
     private class ButtonStatsListener implements ActionListener {

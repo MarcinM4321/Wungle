@@ -10,11 +10,11 @@ public class MainScreen {
     private JButton showHistoryButton;
     private JPanel wordlePanel;
 
-    public MainScreen() {
+    public MainScreen(MainGameProfile profile) {
         JFrame mainGUIFrame = new JFrame("Wordle");
 
         ErrorMessenger errorMessenger = new ErrorMessenger(mainGUIFrame);
-        gameProfile = new MainGameProfile(errorMessenger);
+        gameProfile = profile;
         game = new GameArea(wordlePanel, gameProfile);
         showHistoryButton.addActionListener(new ActionListener() {
             @Override
@@ -42,9 +42,7 @@ public class MainScreen {
                 System.out.println("out of focus");
             }
         });
-
-        SelectScreen selectScreen = new SelectScreen(gameProfile);
     }
 
-    public static void main(String[] args){new MainScreen();}
+    //public static void main(String[] args){new MainScreen();}
 }
