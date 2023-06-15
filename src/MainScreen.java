@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MainScreen extends JFrame {
+public class MainScreen extends JFrame implements DayNightSwitchable{
 
     final private MainGameProfile gameProfile;
     private GameArea game;
@@ -11,38 +11,42 @@ public class MainScreen extends JFrame {
     private JButton returnToMenu;
     private SelectScreenFrame parentScreen;
     private JPanel wordlePanel;
+    private ColorModeButton switchColorMode;
+    private JPanel buttonPanel;
+    private JPanel bottomPanel;
 
-    public MainScreen(MainGameProfile profile, SelectScreenFrame parentScreen) {
+    private boolean isNightMode;
+    public MainScreen(MainGameProfile profile, SelectScreenFrame parentScreen, boolean isNightMode) {
         setTitle("Wordle");
+
         this.parentScreen = parentScreen;
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
 
         showHistoryButton =  new JButton("pokaż historie");
         returnToMenu = new JButton("powrót");
+        this.isNightMode = isNightMode;
+        switchColorMode = new ColorModeButton(this, isNightMode);
+
         buttonPanel.add(showHistoryButton);
         buttonPanel.add(returnToMenu);
+        buttonPanel.add(switchColorMode, BorderLayout.EAST);
         add(buttonPanel, BorderLayout.PAGE_START);
 
-        JPanel bottomPanel = new JPanel();
+        bottomPanel = new JPanel();
         wordlePanel = new JPanel();
         wordlePanel.setPreferredSize(new Dimension(350, 400));
         bottomPanel.add(wordlePanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
 
-
         gameProfile = profile;
-        game = new GameArea(wordlePanel, gameProfile);
+        game = new GameArea(wordlePanel, gameProfile, isNightMode);
 
-        //wordlePanel.setSize(300, 400);
+        switchColorMode.updateColorMode();
         returnToMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentScreen.setVisible(true);
-                parentScreen.setVisible2page(false);
-                parentScreen.setEnabled2page(false);
-                parentScreen.setVisible1page(true);
-                parentScreen.setEnabled1page(true);
+                parentScreen.returnFromGameScreen(getIsNightMode());
                 dispose();
             }
         });
@@ -51,7 +55,14 @@ public class MainScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //MainGameProfile user
                 ShowHistoryScreen screen = new ShowHistoryScreen(gameProfile);
+                screen.setColorMode(getIsNightMode());
                 requestFocus(); //potrzebne, aby okno rejestrowało klawiaturę
+            }
+        });
+        switchColorMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                requestFocus();
             }
         });
         //setContentPane(mainPanel);
@@ -74,5 +85,27 @@ public class MainScreen extends JFrame {
         });
     }
 
+    public void setToNightMode() {
+        isNightMode = true;
+        setPanelsToColor(Color.black);
+        game.setToNightMode();
+    }
+
+    public void setToDayMode() {
+        isNightMode = false;
+        setPanelsToColor(Color.white);
+        game.setToDayMode();
+    }
+
+    private void setPanelsToColor(Color color) {
+        setBackground(color);
+        buttonPanel.setBackground(color);
+        bottomPanel.setBackground(color);
+        getContentPane().setBackground(color);
+    }
+
+    private boolean getIsNightMode() {
+        return isNightMode;
+    }
     //public static void main(String[] args){new MainScreen(new MainGameProfile(new ErrorMessenger(new JFrame("test"))));}
 }

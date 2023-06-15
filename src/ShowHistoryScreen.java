@@ -6,11 +6,12 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class ShowHistoryScreen extends JFrame{
+public class ShowHistoryScreen extends JFrame implements DayNightSwitchable{
     ProfileData profile;
     JPanel historyPanel;
     JLabel username;
     private JTree tree1;
+    private DefaultTreeCellRenderer treeRender;
     private JLabel statisticsLabel;
 
     private static final int MAX_NUMBER_OF_GUESSES = 6;
@@ -21,32 +22,46 @@ public class ShowHistoryScreen extends JFrame{
     private int numberOfLosses;
     private int[] winsPerGameLength;
 
+    ArrayList<JComponent> allColorableComponents;
 
     ShowHistoryScreen(MainGameProfile gameProfile) {
         this.profile = gameProfile.getProfileData();
         setTitle("Historia");
         setBounds(150,20,400,500);
 
+        allColorableComponents = new ArrayList<JComponent>();
+
 
         DefaultMutableTreeNode topNode = new DefaultMutableTreeNode("wszystkie gry gracza " + gameProfile.getUsername());
         populateNode(topNode);
+
         tree1 = new JTree(new DefaultTreeModel(topNode));
-        DefaultTreeCellRenderer treeRender =  new DefaultTreeCellRenderer();
+        allColorableComponents.add(tree1);
+
+        treeRender =  new DefaultTreeCellRenderer();
         treeRender.setClosedIcon(null);
         treeRender.setLeafIcon(null);
         treeRender.setOpenIcon(null);
+        allColorableComponents.add(treeRender);
         tree1.setCellRenderer(treeRender);
         add(tree1, BorderLayout.CENTER);
 
 
         JPanel topPanel = new JPanel();
+        allColorableComponents.add(topPanel);
+
         username = new JLabel(gameProfile.getUsername());
+        allColorableComponents.add(username);
+
         topPanel.add(username);
         add(topPanel, BorderLayout.NORTH);
 
-
         JPanel leftPanel = new JPanel();
+        allColorableComponents.add(leftPanel);
+
         statisticsLabel = new JLabel();
+        allColorableComponents.add(statisticsLabel);
+
         statisticsLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         winsPerGameLength = new int[MAX_NUMBER_OF_GUESSES];
         calculateStatistics();
@@ -54,6 +69,8 @@ public class ShowHistoryScreen extends JFrame{
         leftPanel.add(statisticsLabel, BorderLayout.CENTER);
         add(leftPanel, BorderLayout.WEST);
 
+        setBackground(Color.black);
+        setForeground(Color.white);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         show();
@@ -105,5 +122,37 @@ public class ShowHistoryScreen extends JFrame{
                 nodeForGame.add(new DefaultMutableTreeNode(gameGuesses.get(j)));
             }
         }
+    }
+
+    @Override
+    public void setToDayMode() {
+        treeRender.setBackgroundNonSelectionColor(Color.white);
+        treeRender.setBackgroundSelectionColor(new Color(162, 170, 210));
+        treeRender.setTextNonSelectionColor(Color.black);
+        treeRender.setTextSelectionColor(Color.black);
+
+        for (int i = 0; i < allColorableComponents.size(); i++) {
+            allColorableComponents.get(i).setBackground(Color.WHITE);
+            allColorableComponents.get(i).setForeground(Color.black);
+        }
+    }
+
+    @Override
+    public void setToNightMode() {
+        treeRender.setBackgroundNonSelectionColor(Color.black);
+        treeRender.setBackgroundSelectionColor(new Color(0, 7, 79));
+        treeRender.setTextNonSelectionColor(Color.white);
+        treeRender.setTextSelectionColor(Color.white);
+        for (int i = 0; i < allColorableComponents.size(); i++) {
+            allColorableComponents.get(i).setBackground(Color.BLACK);
+            allColorableComponents.get(i).setForeground(Color.white);
+        }
+    }
+
+    public void setColorMode(boolean isNightMode) {
+        if (isNightMode)
+            setToNightMode();
+        else
+            setToDayMode();
     }
 }

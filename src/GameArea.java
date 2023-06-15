@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GameArea implements KeyListener {
+public class GameArea implements KeyListener, DayNightSwitchable {
     JPanel mainPanel;
     MainGameProfile profile;
     WordList allowedWords;
@@ -13,8 +13,8 @@ public class GameArea implements KeyListener {
     private int lettersWritten = 0;
     private int position = 0;
     private int howManyGuesses = 0; //będę tym sprawdzał ile prób wykonał gracz
-    JLabel[][] letterGrid;
-    GameArea(JPanel mainPanel, MainGameProfile profile) {
+    WordleLetter[][] letterGrid;
+    GameArea(JPanel mainPanel, MainGameProfile profile, boolean isNightMode) {
 
         this.mainPanel = mainPanel;
         this.profile = profile;
@@ -26,14 +26,10 @@ public class GameArea implements KeyListener {
 
         mainPanel.setLayout(wordleLayout);
 
-        letterGrid = new JLabel[WORD_LENGTH][NUMBER_OF_GUESSES];
+        letterGrid = new WordleLetter[WORD_LENGTH][NUMBER_OF_GUESSES];
         for (int x=0; x<NUMBER_OF_GUESSES; x++) {
             for (int y=0; y < WORD_LENGTH; y++) {
-                letterGrid[y][x] = new JLabel("", SwingConstants.CENTER);
-                letterGrid[y][x].setSize(50,50);
-                letterGrid[y][x].setFont(new Font("arial", Font.BOLD, 50));
-                letterGrid[y][x].setOpaque(true);
-                letterGrid[y][x].setBorder(BorderFactory.createLineBorder(Color.black,3));
+                letterGrid[y][x] = new WordleLetter(isNightMode);
                 mainPanel.add(letterGrid[y][x], BorderLayout.CENTER);
             }
         }
@@ -60,10 +56,10 @@ public class GameArea implements KeyListener {
                     else {
                         for(int i = 0; i < WORD_LENGTH; i++){
                             if(choosenWord.charAt(i) == wordArray[i])
-                                letterGrid[i][howManyGuesses].setBackground(Color.GREEN);
+                                letterGrid[i][howManyGuesses].setState(WordleLetter.CORRECT);
                             else if (choosenWord.contains("" + wordArray[i]))
-                                letterGrid[i][howManyGuesses].setBackground(Color.ORANGE);
-                            else letterGrid[i][howManyGuesses].setBackground(Color.RED);
+                                letterGrid[i][howManyGuesses].setState(WordleLetter.PARTIAL);
+                            else letterGrid[i][howManyGuesses].setState(WordleLetter.INCORRECT);
                         }
                         howManyGuesses = howManyGuesses + 1;
                         lettersWritten = 0;
@@ -107,5 +103,93 @@ public class GameArea implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void setToDayMode() {
+        for (int x=0; x<NUMBER_OF_GUESSES; x++) {
+            for (int y = 0; y < WORD_LENGTH; y++) {
+                letterGrid[y][x].setToDayMode();
+            }
+        }
+    }
+
+    @Override
+    public void setToNightMode() {
+        for (int x=0; x<NUMBER_OF_GUESSES; x++) {
+            for (int y = 0; y < WORD_LENGTH; y++) {
+                letterGrid[y][x].setToNightMode();
+            }
+        }
+    }
+
+
+    private class WordleLetter extends JLabel implements DayNightSwitchable {
+        private int state;
+        private boolean isNightMode;
+        static final int UNDECIDED = 0;
+        static final int CORRECT = 1;
+        static final int PARTIAL = 2;
+        static final int INCORRECT = 3;
+
+        WordleLetter(boolean isNightMode) {
+            state = UNDECIDED;
+            this.isNightMode = isNightMode;
+            setHorizontalAlignment(SwingConstants.CENTER);
+            setSize(50,50);
+            setFont(new Font("arial", Font.BOLD, 50));
+            setOpaque(true);
+            setBorder(BorderFactory.createLineBorder(Color.black,3));
+        }
+
+        public void setState(int state) {
+            this.state = state;
+            if (isNightMode)
+                setToNightMode();
+            else
+                setToDayMode();
+        }
+
+        @Override
+        public void setToDayMode() {
+            isNightMode = false;
+            setForeground(Color.black);
+            setBorder(BorderFactory.createLineBorder(Color.black,3));
+            switch (state) {
+                case UNDECIDED:
+                    setBackground(Color.WHITE);
+                    break;
+                case CORRECT:
+                    setBackground(Color.GREEN);
+                    break;
+                case PARTIAL:
+                    setBackground(Color.ORANGE);
+                    break;
+                case INCORRECT:
+                    setBackground(Color.RED);
+                    break;
+            }
+        }
+
+        @Override
+        public void setToNightMode() {
+            isNightMode = true;
+            setForeground(Color.white);
+            setBorder(BorderFactory.createLineBorder(Color.white,3));
+            switch (state) {
+                case UNDECIDED:
+                    setBackground(Color.BLACK);
+                    break;
+                case CORRECT:
+                    setBackground(new Color(22, 98, 0, 255));
+                    break;
+                case PARTIAL:
+                    setBackground(new Color(122, 64, 0));
+                    break;
+                case INCORRECT:
+                    setBackground(new Color(101, 0, 0));
+                    break;
+            }
+        }
     }
 }

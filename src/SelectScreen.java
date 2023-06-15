@@ -47,7 +47,7 @@ class SelectScreenPanel extends JPanel implements ActionListener, KeyListener {/
     }
 }
 
-class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
+class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa pomocnicza, tworząca okno
     void render() {//funkcja, żeby jej wywoływanie profesjonalnie wyglądało :)
         pack();
         selectPanel.repaint();
@@ -87,9 +87,11 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
     private GridBagConstraints buttonGameGBC, buttonStatsGBC, buttonProfilesGBC, buttonConfirmGBC, profileChooserGBC, newUserNameGBC, infoAboutChoiseGBC, infoAboutProfileGBC;//deklaracja pozycjonowania guzików jako atrybuty
     private MainGameProfile profile;
     private ArrayList<String> allUsersNames;
-
     private MainScreen FrameWithGame;
+
+    private Boolean isNightMode;
     public SelectScreenFrame() {
+
         //ściągnięcie danych o profilach
         this.profile = new MainGameProfile(new ErrorMessenger(this));
         this.allUsersNames = profile.getAllUsernames();
@@ -111,6 +113,9 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
             }
             this.profileChooser = profileChooserHelp;
         }
+
+        //czy jest tryb nocny
+        isNightMode = Boolean.FALSE;
 
         //zadeklarowanie pól związanych z tekstem i ukrycie ich
         this.newUsername = new JTextField();
@@ -204,7 +209,28 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         //aktywowanie komponentów z 1 strony
     }
 
+    public void returnFromGameScreen(boolean isNightMode) {
+        setVisible(true);
+        setVisible2page(false);
+        setEnabled2page(false);
+        setVisible1page(true);
+        setEnabled1page(true);
+        this.isNightMode = isNightMode;
+        if (isNightMode)
+            setToNightMode();
+        else
+            setToDayMode();
+    }
+    @Override
+    public void setToDayMode() {
+        selectPanel.setBackground(Color.white);
+    }
 
+    @Override
+    public void setToNightMode() {
+        selectPanel.setBackground(Color.black);
+        System.out.println("Ustawiam tryb nocny");
+    }
 
 
     //sekcja listenerów
@@ -218,7 +244,7 @@ class SelectScreenFrame extends JFrame {//klasa pomocnicza, tworząca okno
         @Override
         public void actionPerformed(ActionEvent e) {
             setVisible(false);
-            new MainScreen(this.WhatProfile, parentScreen);
+            new MainScreen(this.WhatProfile, parentScreen, isNightMode);
         }
     }
     private class ButtonStatsListener implements ActionListener {
