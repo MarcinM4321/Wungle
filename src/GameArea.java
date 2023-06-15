@@ -12,9 +12,10 @@ public class GameArea implements KeyListener, DayNightSwitchable {
     static final int NUMBER_OF_GUESSES = 6;
     private final String choosenWord;
     private ArrayList<String> allGuesses = new ArrayList<>();
+    private boolean isFinished = false;
     private int lettersWritten = 0;
     private int position = 0;
-    private int howManyGuesses = 0; //będę tym sprawdzał ile prób wykonał gracz
+    private int howManyGuesses = 0;
     WordleLetter[][] letterGrid;
     GameArea(JPanel mainPanel, MainGameProfile profile, boolean isNightMode) {
 
@@ -40,7 +41,8 @@ public class GameArea implements KeyListener, DayNightSwitchable {
     @Override
     public void keyTyped(KeyEvent e) {
         String allowedLetters = "qwertyuiopasdfghjklzxcvbnmęóąśłżźćń";
-        if(lettersWritten == 5){
+        if (isFinished){
+        } else if(lettersWritten == 5){
             char[] wordArray = new char[5];
             if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                 for(int i = 0; i < WORD_LENGTH; i++){
@@ -56,11 +58,11 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                     if (guessWord.equals(choosenWord)){
                         for(int i = 0; i < WORD_LENGTH; i++)
                             letterGrid[i][howManyGuesses].setBackground(Color.GREEN);
-                        System.out.println("Gratulacje, odgadłeś słowo");
+                        JOptionPane.showMessageDialog(mainPanel, "Wygrałeś! Szukane słowo to: " + choosenWord, "Koniec gry", JOptionPane.PLAIN_MESSAGE);
                         System.out.println(allGuesses);
-                        //profile.addNewGameHistory(choosenWord, howManyGuesses, allGuesses);
-                    }
-                    else {
+                        profile.addNewGameHistory(new SingleGameHistory(choosenWord, allGuesses));
+                        isFinished = true;
+                    } else {
                         for(int i = 0; i < WORD_LENGTH; i++){
                             if(choosenWord.charAt(i) == wordArray[i])
                                 letterGrid[i][howManyGuesses].setState(WordleLetter.CORRECT);
@@ -78,13 +80,14 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                         lettersWritten = 0;
                         position = position - 5;
                     }
-                if(howManyGuesses == 6){
+                if(howManyGuesses == 6) {
                     System.out.println("Przegrałeś, szukane słowo brzmiało: " + choosenWord);
                     System.out.println(allGuesses);
-                    //profile.addNewGameHistory(choosenWord, howManyGuesses, allGuesses);
+                    JOptionPane.showMessageDialog(mainPanel, "Przegrałeś! Szukane słowo to: " + choosenWord, "Koniec gry", JOptionPane.PLAIN_MESSAGE);
+                    profile.addNewGameHistory(new SingleGameHistory(choosenWord, allGuesses));
+                    isFinished = true;
                 }
-            }
-            else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+            } else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                 letterGrid[(position - 1)%WORD_LENGTH][(position - 1)/WORD_LENGTH].setText("");
                 position = position - 1;
                 lettersWritten = lettersWritten - 1;

@@ -30,7 +30,6 @@ public class WordList {
 
     public Boolean isWordAllowed(String guess) {
         return listOfPossibleWords.contains(guess);
-        //TODO: dokonczyc projekt
     }
     public String chooseWord(){
         Random randomise = new Random();
