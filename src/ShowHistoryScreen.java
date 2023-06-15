@@ -1,10 +1,12 @@
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import java.awt.*;
 import java.util.ArrayList;
 
-public class ShowHistoryScreen {
+public class ShowHistoryScreen extends JFrame{
     ProfileData profile;
     JPanel historyPanel;
     JLabel username;
@@ -22,34 +24,53 @@ public class ShowHistoryScreen {
 
     ShowHistoryScreen(MainGameProfile gameProfile) {
         this.profile = gameProfile.getProfileData();
-        winsPerGameLength = new int[MAX_NUMBER_OF_GUESSES];
-        for (int i = 0; i < MAX_NUMBER_OF_GUESSES; i++) {
-            winsPerGameLength[i] = 0;
-        }
+        setTitle("Historia");
+        setBounds(150,20,400,500);
+
+
         DefaultMutableTreeNode topNode = new DefaultMutableTreeNode("wszystkie gry gracza " + gameProfile.getUsername());
         populateNode(topNode);
-        tree1.setModel(new DefaultTreeModel(topNode) );
-        JFrame mainGUIFrame = new JFrame("History");
-        mainGUIFrame.setContentPane(historyPanel);
-        username.setText(gameProfile.getUsername());
+        tree1 = new JTree(new DefaultTreeModel(topNode));
+        DefaultTreeCellRenderer treeRender =  new DefaultTreeCellRenderer();
+        treeRender.setClosedIcon(null);
+        treeRender.setLeafIcon(null);
+        treeRender.setOpenIcon(null);
+        tree1.setCellRenderer(treeRender);
+        add(tree1, BorderLayout.CENTER);
+
+
+        JPanel topPanel = new JPanel();
+        username = new JLabel(gameProfile.getUsername());
+        topPanel.add(username);
+        add(topPanel, BorderLayout.NORTH);
+
+
+        JPanel leftPanel = new JPanel();
+        statisticsLabel = new JLabel();
+        statisticsLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        winsPerGameLength = new int[MAX_NUMBER_OF_GUESSES];
         calculateStatistics();
         writeStatistics();
-        mainGUIFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        mainGUIFrame.setBounds(150,20,400,500);
-        mainGUIFrame.show();
+        leftPanel.add(statisticsLabel, BorderLayout.CENTER);
+        add(leftPanel, BorderLayout.WEST);
+
+
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        show();
     }
 
     private void writeStatistics() {
         String text = "<html>";
-        text += "<p>liczba wszystkich gier: " + numberOfGames + "</p>";
-        text += "<p>liczba skończonych gier: " + numberOfFinishedGames + "</p>";
-        text += "<p>liczba wygranych gier: " + numberOfWins +  "</p>";
+        text += "<p>liczba wszystkich gier: <b>" + numberOfGames + "</b></p>";
+        text += "<p>liczba skończonych gier: <b>" + numberOfFinishedGames + "</b></p>";
+        text += "<p>liczba wygranych gier: <b>" + numberOfWins +  "</b></p>";
         text += "";
-        for (int i = 0; i < MAX_NUMBER_OF_GUESSES; i++) {
-            text += "<p>&emsp w " + (i+1) + " odpowiedziach: " + winsPerGameLength[i] + "</p>";
+        text += "<p>&emsp w " + 1 + " odpowiedzi: <b>" + winsPerGameLength[0] + "</b></p>";
+        for (int i = 1; i < MAX_NUMBER_OF_GUESSES; i++) {
+            text += "<p>&emsp w " + (i+1) + " odpowiedziach: <b>" + winsPerGameLength[i] + "</b></p>";
         }
         text += "";
-        text += "<p>liczba gier przegranych: " + numberOfLosses + "</p>";
+        text += "<p>liczba gier przegranych: <b>" + numberOfLosses + "</b></p>";
         text += "</html>";
         statisticsLabel.setText(text);
     }
