@@ -1,7 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
-public class MainScreen {
+public class MainScreen extends JFrame {
 
     final private MainGameProfile gameProfile;
     private GameArea game;
@@ -11,26 +12,41 @@ public class MainScreen {
     private JPanel wordlePanel;
 
     public MainScreen(MainGameProfile profile) {
-        JFrame mainGUIFrame = new JFrame("Wordle");
+        setTitle("Wordle");
 
-        ErrorMessenger errorMessenger = new ErrorMessenger(mainGUIFrame);
+        JPanel buttonPanel = new JPanel();
+
+        showHistoryButton =  new JButton("pokaż historie");
+        buttonPanel.add(showHistoryButton);
+        add(buttonPanel, BorderLayout.PAGE_START);
+
+        JPanel bottomPanel = new JPanel();
+        wordlePanel = new JPanel();
+        wordlePanel.setPreferredSize(new Dimension(350, 400));
+        bottomPanel.add(wordlePanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+
+
         gameProfile = profile;
         game = new GameArea(wordlePanel, gameProfile);
+
+        //wordlePanel.setSize(300, 400);
         showHistoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //MainGameProfile user
                 ShowHistoryScreen screen = new ShowHistoryScreen(gameProfile);
-                mainGUIFrame.requestFocus(); //potrzebne, aby okno rejestrowało klawiaturę
+                requestFocus(); //potrzebne, aby okno rejestrowało klawiaturę
             }
         });
-        mainGUIFrame.setContentPane(mainPanel);
-        mainGUIFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainGUIFrame.setBounds(180,180,400,600);
-        mainGUIFrame.show();
-        mainGUIFrame.setFocusable(true);
-        mainGUIFrame.addKeyListener(game);
-        mainGUIFrame.addFocusListener(new FocusListener() {
+        //setContentPane(mainPanel);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBounds(180,180,400,600);
+        show();
+        setFocusable(true);
+        addKeyListener(game);
+        addFocusListener(new FocusListener() {
             //Potrzebne aby wordlePanel miał zawsze focus, aby mógł rejestrować klawiaturę.
             @Override
             public void focusGained(FocusEvent e) {
@@ -44,5 +60,5 @@ public class MainScreen {
         });
     }
 
-    //public static void main(String[] args){new MainScreen();}
+    public static void main(String[] args){new MainScreen(new MainGameProfile(new ErrorMessenger(new JFrame("test"))));}
 }

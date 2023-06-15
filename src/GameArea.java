@@ -29,10 +29,12 @@ public class GameArea implements KeyListener {
         letterGrid = new JLabel[WORD_LENGTH][NUMBER_OF_GUESSES];
         for (int x=0; x<NUMBER_OF_GUESSES; x++) {
             for (int y=0; y < WORD_LENGTH; y++) {
-                letterGrid[y][x] = new JLabel("("+x+","+y+")");
-                letterGrid[y][x].setSize(10,10);
+                letterGrid[y][x] = new JLabel("", SwingConstants.CENTER);
+                letterGrid[y][x].setSize(50,50);
+                letterGrid[y][x].setFont(new Font("arial", Font.BOLD, 50));
                 letterGrid[y][x].setOpaque(true);
-                mainPanel.add(letterGrid[y][x]);
+                letterGrid[y][x].setBorder(BorderFactory.createLineBorder(Color.black,3));
+                mainPanel.add(letterGrid[y][x], BorderLayout.CENTER);
             }
         }
     }
