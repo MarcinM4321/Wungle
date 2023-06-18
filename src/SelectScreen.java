@@ -22,6 +22,7 @@ class SelectScreenPanel extends JPanel implements ActionListener, KeyListener {/
         g.setFont(new Font("Arial", Font.BOLD, 110));//ustawienie czcionki
         g.drawString("Wordle",250,170);//napisanie tekstu "WORDLE"
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -240,13 +241,41 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
     }
     @Override
     public void setToDayMode() {
+        isNightMode = false;
         selectPanel.setBackground(Color.white);
+        setButtonsColor(Color.lightGray, Color.black);
+        setTextFieldColor(Color.black);
+        newUsername.setBackground(Color.white);
+        newUsername.setForeground(Color.black);
+        profileChooser.setBackground(Color.white);
+        profileChooser.setForeground(Color.black);
     }
 
     @Override
     public void setToNightMode() {
+        isNightMode = true;
         selectPanel.setBackground(Color.black);
-        //System.out.println("Ustawiam tryb nocny");
+        setButtonsColor(Color.darkGray, Color.white);
+        setTextFieldColor(Color.white);
+        newUsername.setBackground(Color.darkGray);
+        newUsername.setForeground(Color.white);
+        profileChooser.setBackground(Color.darkGray);
+        profileChooser.setForeground(Color.white);
+    }
+
+    private void setButtonsColor(Color bg, Color fg) {
+        buttonStats.setColor(bg, fg);
+        buttonConfirm.setColor(bg, fg);
+        buttonGame.setColor(bg, fg);
+        buttonProfiles.setColor(bg, fg);
+        switchColorModeButton.setBackground(bg);
+        switchColorModeButton.setForeground(fg);
+    }
+
+
+    private void setTextFieldColor(Color textColor) {
+        infoAboutChoise.setForeground(textColor);
+        infoAboutProfile.setForeground(textColor);
     }
 
 
@@ -271,7 +300,9 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            new ShowHistoryScreen(this.WhatProfile);
+            ShowHistoryScreen screen = new ShowHistoryScreen(this.WhatProfile);
+            screen.setColorMode(isNightMode);
+
         }
     }
     private class ButtonProfilesListener implements ActionListener {
@@ -334,5 +365,10 @@ class Buttons extends JButton {//klasa pomocnicza, tworząca guzik
         setVisible(IfVisible);//domyślnie guzik pojawia sie
         setEnabled(IfEnabled);//domyślnie można go wciskać
         setText(buttonName);//ustawienie napisu na guziku
+    }
+
+    public void setColor(Color backgroundColor, Color foregroundColor) {
+        setBackground(backgroundColor);
+        setForeground(foregroundColor);
     }
 }
