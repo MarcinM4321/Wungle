@@ -133,10 +133,11 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
 
         //deklaracja guzików
         this.buttonGame = new Buttons("Rozpocznij nową grę!",true,false,false);//guzik "Rozpocznij nową grę"
-        this.buttonStats = new Buttons("Pokaż statystyki profilu",true,false,false);//guzik "Pokaż statystyki"
+        this.buttonStats = new Buttons("statystyki profilu",true,false,false);//guzik "Pokaż statystyki"
         this.buttonProfiles = new Buttons("Wybierz profil",true,true,false);//guzik "Wybierz profil"
         this.buttonConfirm = new Buttons("Zatwierdź wybór",false,false,false);
         this.switchColorModeButton = new ColorModeButton(this,isNightMode);//guzik z wyborem trybu nocnego
+
 
         //przypisanie guzikom rozmiarów
         buttonGame.setPreferredSize(new Dimension(200,30));
@@ -220,6 +221,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         //dodatkowe ustawienie do switchColorodeButton
         switchColorModeButton.setPreferredSize(new Dimension(200,30));//domyślnie ma rozmiary 200 x 30
         switchColorModeButton.setBackground(Color.lightGray);//domyślnie ma kolor szary, jak reszta guzików
+        switchColorModeButton.setFont(new Font("Arial", Font.PLAIN, 17));
 
         //deaktywowanie komponentów z 2 strony
         setVisible2page(false);
