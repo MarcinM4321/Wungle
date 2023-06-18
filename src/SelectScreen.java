@@ -11,7 +11,6 @@ public class SelectScreen {
         SelectScreenFrame selectScreenFrame = new SelectScreenFrame();
         selectScreenFrame.render();
     }
-
     public static void main(String[] args) {
         new SelectScreen();
     }
@@ -84,14 +83,21 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
     private JLabel infoAboutChoise,infoAboutProfile;//pole tekstowe, które będziemy wyświetlać w momencie, gdy wybieramy profile oraz w glownym menu - powie nam, jaki profil wybraliśmy
     private SelectScreenPanel selectPanel;//deklaracja panelu jako atrybut
     private Buttons buttonGame, buttonStats, buttonProfiles, buttonConfirm;//deklaracja guzików jako atrybuty
-    private GridBagConstraints buttonGameGBC, buttonStatsGBC, buttonProfilesGBC, buttonConfirmGBC, profileChooserGBC, newUserNameGBC, infoAboutChoiseGBC, infoAboutProfileGBC;//deklaracja pozycjonowania guzików jako atrybuty
+    private GridBagConstraints buttonGameGBC;
+    private GridBagConstraints buttonStatsGBC;
+    private GridBagConstraints buttonProfilesGBC;
+    private GridBagConstraints buttonConfirmGBC;
+    private GridBagConstraints profileChooserGBC;
+    private GridBagConstraints newUserNameGBC;
+    private GridBagConstraints infoAboutChoiseGBC;
+    private GridBagConstraints infoAboutProfileGBC;
+    private GridBagConstraints switchColorModeButtonGBC;//deklaracja pozycjonowania guzików jako atrybuty
     private MainGameProfile profile;
     private ArrayList<String> allUsersNames;
     private MainScreen FrameWithGame;
-
+    private ColorModeButton switchColorModeButton;
     private Boolean isNightMode;
     public SelectScreenFrame() {
-
         //ściągnięcie danych o profilach
         this.profile = new MainGameProfile(new ErrorMessenger(this));
         this.allUsersNames = profile.getAllUsernames();
@@ -129,6 +135,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         this.buttonStats = new Buttons("Pokaż statystyki profilu",true,false,false);//guzik "Pokaż statystyki"
         this.buttonProfiles = new Buttons("Wybierz profil",true,true,false);//guzik "Wybierz profil"
         this.buttonConfirm = new Buttons("Zatwierdź wybór",false,false,false);
+        this.switchColorModeButton = new ColorModeButton(this,isNightMode);//guzik z wyborem trybu nocnego
 
         //przypisanie guzikom rozmiarów
         buttonGame.setPreferredSize(new Dimension(200,30));
@@ -139,6 +146,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         newUsername.setPreferredSize(new Dimension(400,30));
         infoAboutChoise.setPreferredSize(new Dimension(600,30));
         infoAboutProfile.setPreferredSize(new Dimension(600,30));
+        switchColorModeButton.setPreferredSize(new Dimension(200,30));
 
         //kasowanie tła pól tekstowych - żeby były przezroczyste
         infoAboutChoise.setBackground(Color.lightGray);
@@ -159,6 +167,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         this.newUserNameGBC = new GridBagConstraints();
         this.infoAboutChoiseGBC = new GridBagConstraints();
         this.infoAboutProfileGBC = new GridBagConstraints();
+        this.switchColorModeButtonGBC = new GridBagConstraints();
 
         //ustawienie GBC dla komponentów
         buttonGameGBC.gridx = 0;
@@ -169,6 +178,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         newUserNameGBC.gridx = 0;
         infoAboutChoiseGBC.gridx = 0;
         infoAboutProfileGBC.gridx = 0;
+        switchColorModeButtonGBC.gridx = 0;
 
         buttonGameGBC.gridy = 0;
         buttonStatsGBC.gridy = 0;
@@ -178,6 +188,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         newUserNameGBC.gridy = 0;
         infoAboutChoiseGBC.gridy = 0;
         infoAboutProfileGBC.gridy = 0;
+        switchColorModeButtonGBC.gridy = 0;
 
         buttonGameGBC.insets = new Insets(150,0,0,0);
         buttonStatsGBC.insets = new Insets(220,0,0,0);
@@ -185,8 +196,9 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         buttonConfirmGBC.insets = new Insets(550,0,0,0);
         profileChooserGBC.insets = new Insets(150,0,0,0);
         newUserNameGBC.insets = new Insets(350,0,0,0);
-        infoAboutProfileGBC.insets = new Insets(0,0,0,0);
-        infoAboutChoiseGBC.insets = new Insets(0,0,0,0);
+        infoAboutProfileGBC.insets = new Insets(50,0,0,0);
+        infoAboutChoiseGBC.insets = new Insets(50,0,0,0);
+        switchColorModeButtonGBC.insets = new Insets(0,0,0,0);
 
         this.selectPanel = new SelectScreenPanel(); //deklaracja panelu głównego
         selectPanel.repaint();//wyrysowanie napisu "WORDLE"
@@ -202,6 +214,11 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         selectPanel.add(newUsername,newUserNameGBC);
         selectPanel.add(infoAboutChoise,infoAboutChoiseGBC);
         selectPanel.add(infoAboutProfile,infoAboutProfileGBC);
+        selectPanel.add(switchColorModeButton,switchColorModeButtonGBC);
+
+        //dodatkowe ustawienie do switchColorodeButton
+        switchColorModeButton.setPreferredSize(new Dimension(200,30));//domyślnie ma rozmiary 200 x 30
+        switchColorModeButton.setBackground(Color.lightGray);//domyślnie ma kolor szary, jak reszta guzików
 
         //deaktywowanie komponentów z 2 strony
         setVisible2page(false);
@@ -229,7 +246,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
     @Override
     public void setToNightMode() {
         selectPanel.setBackground(Color.black);
-        System.out.println("Ustawiam tryb nocny");
+        //System.out.println("Ustawiam tryb nocny");
     }
 
 
@@ -263,6 +280,7 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         }
         @Override
         public void actionPerformed(ActionEvent e) {
+            infoAboutProfile.setVisible(false);
             //ustawiam komponenty z 1 strony
             setVisible1page(false);
             setEnabled1page(false);
@@ -280,13 +298,19 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         public void actionPerformed(ActionEvent e) {
             Boolean wasSuccessful;
             if(!newUsername.getText().equals("")) {
-                wasSuccessful =  profile.createProfile(newUsername.getText());
-                infoAboutProfile = new JLabel("Wybrałeś profil: " + newUsername.getText());
+                wasSuccessful =  profile.createProfile(newUsername.getText());//czy sie udalo stworzyc nowego uzytkownika
+                for(int i = 0; i < allUsersNames.size(); i++) {//zabezpieczenie przed tym, ze jezeli uzytkownik wpisze to samo, co wybierze, to program nie zglupieje, odnajdzie sobie tego uzytkownika w bazie i ustawi
+                    if(newUsername.getText().equals(allUsersNames.get(i))) {
+                        wasSuccessful = profile.loadProfile(i);
+                        break;
+                    }
+                }
+                infoAboutProfile.setText("Wybrałeś profil: " + newUsername.getText());
             }
             else {
                 int index = profileChooser.getSelectedIndex();
                 wasSuccessful = profile.loadProfile(index);
-                infoAboutProfile = new JLabel("Wybrałeś profil: " + allUsersNames.get(index));
+                infoAboutProfile.setText("Wybrałeś profil: " + allUsersNames.get(index));
             }
             //ustawiam komponenty z 2 strony
             setVisible2page(false);
@@ -305,7 +329,7 @@ class Buttons extends JButton {//klasa pomocnicza, tworząca guzik
     public Buttons(String buttonName, boolean IfVisible, boolean IfEnabled, boolean IfFocusable) {//konstruktor klasy JButton
         setFont(new Font("Arial", Font.PLAIN, 17));//ustawienie czcionki
         setBackground(Color.lightGray);//domyślnie jest koloru jasno-szarego
-        setSize(new Dimension(200,30));//domyślnie ma rozmiary 200 x 30
+        setPreferredSize(new Dimension(400,30));//domyślnie ma rozmiary 750 x 30
         setFocusable(IfFocusable);//domyślnie nie zabiera focusu przy tworzeniu
         setVisible(IfVisible);//domyślnie guzik pojawia sie
         setEnabled(IfEnabled);//domyślnie można go wciskać
