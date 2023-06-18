@@ -107,7 +107,9 @@ class SelectScreenFrame extends JFrame implements DayNightSwitchable {//klasa po
         //zadeklarowanie pól związanych z tekstem i ukrycie ich
         this.newUsername = new JTextField();
         this.infoAboutChoise = new JLabel("Wybierz profil z listy użytkowników już istniejących lub wpisz nazwę nowego użytkownika.");
+        this.infoAboutChoise.setHorizontalAlignment(SwingConstants.CENTER);
         this.infoAboutProfile = new JLabel("Wybrałeś profil: ");
+        this.infoAboutProfile.setHorizontalAlignment(SwingConstants.CENTER);
         infoAboutProfile.setVisible(false);
         infoAboutChoise.setVisible(false);
 
