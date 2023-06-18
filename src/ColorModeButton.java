@@ -12,7 +12,11 @@ public class ColorModeButton extends JButton {
         setFocusable(false);//domyślnie nie zabiera focusu przy tworzeniu
         setVisible(true);//domyślnie guzik pojawia sie
         setEnabled(true);//domyślnie można go wciskać
-        setText("Tryb nocy");
+        if(isNightMode) {
+            setText("Tryb noc");
+        }
+        else
+            setText("Tryb dzień");
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -28,11 +32,11 @@ public class ColorModeButton extends JButton {
     public void updateColorMode() {
         if (isNightMode) {
             component.setToNightMode();
-            setText("tryb dzień");
+            setText("Tryb dzień");
         }
         else {
             component.setToDayMode();
-            setText("tryb noc");
+            setText("Tryb noc");
         }
     }
 }

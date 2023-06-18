@@ -21,9 +21,9 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
 
         buttonPanel = new JPanel();
 
-        resetGameButton = new JButton("nowa gra");
-        showHistoryButton =  new JButton("pokaż historie");
-        returnToMenu = new JButton("powrót");
+        resetGameButton = new JButton("Nowa gra");
+        showHistoryButton =  new JButton("Pokaż historie");
+        returnToMenu = new JButton("Powrót");
         this.isNightMode = isNightMode;
         switchColorMode = new ColorModeButton(this, isNightMode);
 
@@ -76,7 +76,7 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
         });
         //setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setBounds(180,180,400,600);
+        setBounds(180,180,450,600);
         show();
         setFocusable(true);
         addKeyListener(game);
