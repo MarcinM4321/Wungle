@@ -49,7 +49,6 @@ public class GameArea implements KeyListener, DayNightSwitchable {
         choosenWord = allowedWords.chooseWord();
         lettersWritten = 0;
         howManyGuesses = 0;
-        position = 0;
         isFinished = false;
     }
 
@@ -93,7 +92,6 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                             letterGrid[i][howManyGuesses].setText("");
                         }
                         lettersWritten = 0;
-                        position = position - 5;
                     }
                 if(howManyGuesses == 6) {
                     System.out.println("Przegrałeś, szukane słowo brzmiało: " + choosenWord);
@@ -103,25 +101,21 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                     isFinished = true;
                 }
             } else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                letterGrid[(position - 1)%WORD_LENGTH][(position - 1)/WORD_LENGTH].setText("");
-                position = position - 1;
+                letterGrid[lettersWritten - 1][howManyGuesses].setText("");
                 lettersWritten = lettersWritten - 1;
             }
         } else if(e.getKeyChar() == KeyEvent.VK_BACK_SPACE){
                 if(lettersWritten != 0){
-                    letterGrid[(position - 1)%WORD_LENGTH][(position - 1)/WORD_LENGTH].setText("");
-                    position = position - 1;
+                    letterGrid[lettersWritten - 1][howManyGuesses].setText("");
                     lettersWritten = lettersWritten - 1;
                 } else
-                    letterGrid[position%WORD_LENGTH][position/WORD_LENGTH].setText("");
+                    letterGrid[lettersWritten][howManyGuesses].setText("");
         } else if (allowedLetters.contains("" + e.getKeyChar())) {
-            letterGrid[position%WORD_LENGTH][position/WORD_LENGTH].setText(""+e.getKeyChar());
-            position = position + 1;
+            letterGrid[lettersWritten][howManyGuesses].setText(""+e.getKeyChar());
             lettersWritten = lettersWritten + 1;
         }
 
         System.out.println("pressed: "+ e.getKeyChar());
-        System.out.println(position);
         System.out.println("lettersWritten = " + lettersWritten);
     }
 
