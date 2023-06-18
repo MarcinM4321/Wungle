@@ -65,7 +65,7 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
         switchColorMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                requestFocus();
+                requestFocus(); //potrzebne, aby okno rejestrowało klawiaturę
             }
         });
 
@@ -73,7 +73,7 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
             @Override
             public void actionPerformed(ActionEvent e) {
                 game.resetGame();
-                requestFocus();
+                requestFocus(); //potrzebne, aby okno rejestrowało klawiaturę
             }
         });
         //setContentPane(mainPanel);
@@ -82,18 +82,6 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
         show();
         setFocusable(true);
         addKeyListener(game);
-        addFocusListener(new FocusListener() {
-            //Potrzebne aby wordlePanel miał zawsze focus, aby mógł rejestrować klawiaturę.
-            @Override
-            public void focusGained(FocusEvent e) {
-                //System.out.println("in focus");
-                //wordlePanel.requestFocus();
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                //System.out.println("out of focus");
-            }
-        });
     }
 
     public void setToNightMode() {
@@ -118,5 +106,4 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
     private boolean getIsNightMode() {
         return isNightMode;
     }
-    //public static void main(String[] args){new MainScreen(new MainGameProfile(new ErrorMessenger(new JFrame("test"))));}
 }
