@@ -52,7 +52,7 @@ public class GameArea implements KeyListener, DayNightSwitchable {
         position = 0;
         isFinished = false;
     }
-//TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyGuesses = 6
+
     @Override
     public void keyTyped(KeyEvent e) {
         String allowedLetters = "qwertyuiopasdfghjklzxcvbnmęóąśłżźćń";
@@ -72,7 +72,7 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                     allGuesses.add(guessWord);
                     if (guessWord.equals(choosenWord)){
                         for(int i = 0; i < WORD_LENGTH; i++)
-                            letterGrid[i][howManyGuesses].setBackground(Color.GREEN);
+                            letterGrid[i][howManyGuesses].setState(WordleLetter.CORRECT);
                         JOptionPane.showMessageDialog(mainPanel, "Wygrałeś! Szukane słowo to: " + choosenWord, "Koniec gry", JOptionPane.PLAIN_MESSAGE);
                         System.out.println(allGuesses);
                         profile.addNewGameHistory(new SingleGameHistory(choosenWord, allGuesses));

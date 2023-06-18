@@ -16,7 +16,7 @@ public class WordList {
         dictionary = new File("slowa.txt");
         try {
             Scanner readDictionary = new Scanner(dictionary);
-            for(int i = 0; i < 3186044; i++) {
+            while (readDictionary.hasNextLine()) {
                 word = readDictionary.nextLine();
                 if(word.length() == 5)
                     listOfPossibleWords.add(word);

@@ -23,11 +23,11 @@ public class ColorModeButton extends JButton {
     public void updateColorMode() {
         if (isNightMode) {
             component.setToNightMode();
-            setText("tryb dzienny");
+            setText("tryb dzień");
         }
         else {
             component.setToDayMode();
-            setText("tryb nocy");
+            setText("tryb noc");
         }
     }
 }
