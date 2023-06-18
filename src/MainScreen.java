@@ -86,12 +86,12 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
             //Potrzebne aby wordlePanel miał zawsze focus, aby mógł rejestrować klawiaturę.
             @Override
             public void focusGained(FocusEvent e) {
-                System.out.println("in focus");
+                //System.out.println("in focus");
                 //wordlePanel.requestFocus();
             }
             @Override
             public void focusLost(FocusEvent e) {
-                System.out.println("out of focus");
+                //System.out.println("out of focus");
             }
         });
     }

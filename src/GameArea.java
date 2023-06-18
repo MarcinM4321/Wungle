@@ -65,7 +65,7 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                 }
 
                 String guessWord = String.valueOf(wordArray);
-                System.out.println(guessWord);
+                //System.out.println(guessWord);
 
                 if(allowedWords.isWordAllowed(guessWord)){
                     allGuesses.add(guessWord);
@@ -73,7 +73,7 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                         for(int i = 0; i < WORD_LENGTH; i++)
                             letterGrid[i][howManyGuesses].setState(WordleLetter.CORRECT);
                         JOptionPane.showMessageDialog(mainPanel, "Wygrałeś! Szukane słowo to: " + choosenWord, "Koniec gry", JOptionPane.PLAIN_MESSAGE);
-                        System.out.println(allGuesses);
+                        //System.out.println(allGuesses);
                         profile.addNewGameHistory(new SingleGameHistory(choosenWord, allGuesses));
                         isFinished = true;
                     } else {
@@ -94,8 +94,8 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                         lettersWritten = 0;
                     }
                 if(howManyGuesses == 6) {
-                    System.out.println("Przegrałeś, szukane słowo brzmiało: " + choosenWord);
-                    System.out.println(allGuesses);
+                    //System.out.println("Przegrałeś, szukane słowo brzmiało: " + choosenWord);
+                    //System.out.println(allGuesses);
                     JOptionPane.showMessageDialog(mainPanel, "Przegrałeś! Szukane słowo to: " + choosenWord, "Koniec gry", JOptionPane.PLAIN_MESSAGE);
                     profile.addNewGameHistory(new SingleGameHistory(choosenWord, allGuesses));
                     isFinished = true;
@@ -115,8 +115,9 @@ public class GameArea implements KeyListener, DayNightSwitchable {
             lettersWritten = lettersWritten + 1;
         }
 
-        System.out.println("pressed: "+ e.getKeyChar());
-        System.out.println("lettersWritten = " + lettersWritten);
+        //System.out.println("pressed: "+ e.getKeyChar());
+        //.out.println(position);
+        //System.out.println("lettersWritten = " + lettersWritten);
     }
 
     @Override

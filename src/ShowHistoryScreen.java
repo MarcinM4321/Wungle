@@ -97,8 +97,8 @@ public class ShowHistoryScreen extends JFrame implements DayNightSwitchable{
         for (int i = 0; i <profile.getNumberOfGames(); i++) {
             SingleGameHistory game = profile.getSingleHistory(i);
             String last_word = game.getAllGuesses().get(game.getNumberOfGuesses()-1);
-            System.out.println(game.getTarget()+" "+last_word);
-            System.out.println(game.getTarget().equals(last_word));
+            //System.out.println(game.getTarget()+" "+last_word);
+            //System.out.println(game.getTarget().equals(last_word));
             if (game.isFinnished()) {
                 numberOfFinishedGames++;
                 if (game.isWinning()) {
