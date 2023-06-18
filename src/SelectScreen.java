@@ -15,32 +15,12 @@ public class SelectScreen {
         new SelectScreen();
     }
 }
-class SelectScreenPanel extends JPanel implements ActionListener, KeyListener {//klasa pomocnicza, tworząca panel
+class SelectScreenPanel extends JPanel {//klasa pomocnicza, tworząca panel
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Napisanie tekstu na ekranie
         g.setFont(new Font("Arial", Font.BOLD, 110));//ustawienie czcionki
         g.drawString("Wordle",250,170);//napisanie tekstu "WORDLE"
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 
     public SelectScreenPanel() {
