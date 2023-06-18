@@ -10,7 +10,7 @@ public class GameArea implements KeyListener, DayNightSwitchable {
     WordList allowedWords;
     static final int WORD_LENGTH = 5;
     static final int NUMBER_OF_GUESSES = 6;
-    private final String choosenWord;
+    private String choosenWord;
     private ArrayList<String> allGuesses = new ArrayList<>();
     private boolean isFinished = false;
     private int lettersWritten = 0;
@@ -36,6 +36,21 @@ public class GameArea implements KeyListener, DayNightSwitchable {
                 mainPanel.add(letterGrid[y][x], BorderLayout.CENTER);
             }
         }
+    }
+
+    public void resetGame() {
+
+        for (int x=0; x<NUMBER_OF_GUESSES; x++) {
+            for (int y=0; y < WORD_LENGTH; y++) {
+                letterGrid[y][x].setState(WordleLetter.UNDECIDED);
+                letterGrid[y][x].setText("");
+            }
+        }
+        choosenWord = allowedWords.chooseWord();
+        lettersWritten = 0;
+        howManyGuesses = 0;
+        position = 0;
+        isFinished = false;
     }
 //TODO napisać kod który będzie kończył grę po zgadnięciu słowa, lub gdy wartość howManyGuesses = 6
     @Override

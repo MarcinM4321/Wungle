@@ -9,6 +9,7 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
 
     private JButton showHistoryButton;
     private JButton returnToMenu;
+    private JButton resetGameButton;
     private SelectScreenFrame parentScreen;
     private JPanel wordlePanel;
     private ColorModeButton switchColorMode;
@@ -22,11 +23,13 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
         this.parentScreen = parentScreen;
         buttonPanel = new JPanel();
 
+        resetGameButton = new JButton("nowa gra");
         showHistoryButton =  new JButton("pokaż historie");
         returnToMenu = new JButton("powrót");
         this.isNightMode = isNightMode;
         switchColorMode = new ColorModeButton(this, isNightMode);
 
+        buttonPanel.add(resetGameButton);
         buttonPanel.add(showHistoryButton);
         buttonPanel.add(returnToMenu);
         buttonPanel.add(switchColorMode, BorderLayout.EAST);
@@ -62,6 +65,14 @@ public class MainScreen extends JFrame implements DayNightSwitchable{
         switchColorMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                requestFocus();
+            }
+        });
+
+        resetGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                game.resetGame();
                 requestFocus();
             }
         });
