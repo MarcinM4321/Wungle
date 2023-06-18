@@ -7,9 +7,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ShowHistoryScreen extends JFrame implements DayNightSwitchable{
-    ProfileData profile;
-    JPanel historyPanel;
-    JLabel username;
+    private ProfileData profile;
+    private JLabel username;
     private JTree tree1;
     private DefaultTreeCellRenderer treeRender;
     private JLabel statisticsLabel;
@@ -22,7 +21,7 @@ public class ShowHistoryScreen extends JFrame implements DayNightSwitchable{
     private int numberOfLosses;
     private int[] winsPerGameLength;
 
-    ArrayList<JComponent> allColorableComponents;
+    private ArrayList<JComponent> allColorableComponents;
 
     ShowHistoryScreen(MainGameProfile gameProfile) {
         this.profile = gameProfile.getProfileData();

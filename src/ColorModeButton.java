@@ -10,7 +10,6 @@ public class ColorModeButton extends JButton {
         this.component = component;
         this.isNightMode = isNightMode;
         setFont(new Font("Arial", Font.PLAIN, 17));//ustawienie czcionki
-        //setBackground(Color.lightGray);//domyślnie jest koloru jasno-szarego
         setFocusable(false);//domyślnie nie zabiera focusu przy tworzeniu
         setVisible(true);//domyślnie guzik pojawia sie
         setEnabled(true);//domyślnie można go wciskać

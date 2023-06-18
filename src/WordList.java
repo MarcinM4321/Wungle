@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class WordList {
-    ArrayList<String> listOfPossibleWords;
+    private ArrayList<String> listOfPossibleWords;
     WordList() {
         listOfPossibleWords = new ArrayList<String>();
     }

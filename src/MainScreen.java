@@ -4,23 +4,21 @@ import java.awt.event.*;
 
 public class MainScreen extends JFrame implements DayNightSwitchable{
 
-    final private MainGameProfile gameProfile;
-    private GameArea game;
+    private final MainGameProfile gameProfile;
+    private final GameArea game;
 
-    private JButton showHistoryButton;
-    private JButton returnToMenu;
-    private JButton resetGameButton;
-    private SelectScreenFrame parentScreen;
-    private JPanel wordlePanel;
-    private ColorModeButton switchColorMode;
-    private JPanel buttonPanel;
-    private JPanel bottomPanel;
+    private final JButton showHistoryButton;
+    private final JButton returnToMenu;
+    private final JButton resetGameButton;
+    private final JPanel wordlePanel;
+    private final ColorModeButton switchColorMode;
+    private final JPanel buttonPanel;
+    private final JPanel bottomPanel;
 
     private boolean isNightMode;
     public MainScreen(MainGameProfile profile, SelectScreenFrame parentScreen, boolean isNightMode) {
         setTitle("Wordle");
 
-        this.parentScreen = parentScreen;
         buttonPanel = new JPanel();
 
         resetGameButton = new JButton("nowa gra");

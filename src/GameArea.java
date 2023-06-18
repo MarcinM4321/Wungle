@@ -5,18 +5,18 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class GameArea implements KeyListener, DayNightSwitchable {
-    JPanel mainPanel;
-    MainGameProfile profile;
-    WordList allowedWords;
-    static final int WORD_LENGTH = 5;
-    static final int NUMBER_OF_GUESSES = 6;
+    private JPanel mainPanel;
+    private MainGameProfile profile;
+    private WordList allowedWords;
+    private static final int WORD_LENGTH = 5;
+    private static final int NUMBER_OF_GUESSES = 6;
     private String choosenWord;
     private ArrayList<String> allGuesses = new ArrayList<>();
     private boolean isFinished = false;
     private int lettersWritten = 0;
     private int position = 0;
     private int howManyGuesses = 0;
-    WordleLetter[][] letterGrid;
+    private WordleLetter[][] letterGrid;
     GameArea(JPanel mainPanel, MainGameProfile profile, boolean isNightMode) {
 
         this.mainPanel = mainPanel;

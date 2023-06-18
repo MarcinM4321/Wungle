@@ -9,11 +9,11 @@ public class MainGameProfile {
     // Wszystkie inny klasy mają korzystać z tej klasy aby otrzymywać informacje o profilu gracza
 
     private ProfileData currentProfile;
-    private ProfileDataIO database;
+    private final ProfileDataIO database;
     private ArrayList<Integer> allUsersID;
     private ArrayList<String> allUsernames;
 
-    private ErrorMessenger errorMessenger;
+    private final ErrorMessenger errorMessenger;
 
     private static final int MAX_NUMBER_OF_IDS = 10000;
     private static final String FILE_PATH_USER_LIST = "allUsers.txt";
